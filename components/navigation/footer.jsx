@@ -1,0 +1,41 @@
+import React from "react";
+
+export default function Footer() {
+    return (
+        <div className="w-full flex md:justify-center justify-between items-center flex-col p-4 gradient-bg-footer">
+            <div className="w-full flex sm:flex-row flex-col justify-between items-center my-4">
+                <div className="flex flex-[0.5] justify-center items-center">
+                    {/* <img src={logo} alt="logo" className="w-32" /> */}
+                    <a href="/"><p className="text-cyan-400">EtherVote</p></a>
+                </div>
+                <div className="flex flex-1 justify-evenly items-center flex-wrap sm:mt-0 mt-5 w-full">
+                    <a href="/Registration" className="text-white text-base text-center mx-2 cursor-pointer">
+                        Registrasi
+                    </a>
+                    <a href="/Voting" className="text-white text-base text-center mx-2 cursor-pointer">
+                        Voting
+                    </a>
+                    <a href="/Results" className="text-white text-base text-center mx-2 cursor-pointer">
+                        Hasil
+                    </a>
+                </div>
+            </div>
+
+            {/* <div className="flex justify-center items-center flex-col mt-5">
+                <p className="text-white text-sm text-center">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Similique, qui.
+                </p>
+                <p className="text-white text-sm text-center font-medium mt-2">
+                    info@ethervote.com
+                </p>
+            </div> */}
+
+            <div className="sm:w-[90%] w-full h-[0.25px] bg-gray-400 mt-5 " />
+
+            <div className="sm:w-[90%] w-full flex justify-between items-center mt-3">
+                <p className="text-white text-left text-xs">@ethervote2024</p>
+                <p className="text-white text-right text-xs">All rights reserved</p>
+            </div>
+        </div>
+    );
+}
