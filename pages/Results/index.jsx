@@ -7,26 +7,25 @@ const Election_ABI = require("../../utils/Election.json");
 
 export default function Voting() {
 
-    // Contract Address & ABI Election
-    const contractAddress = "0xf13Be6b0B262b13292f3b037123597D2d8c60D73";
+    const contractAddress = "0x6DCb89Ab5586886de2554c774c9C73a16DAD2511";
     const contractABI = Election_ABI.abi;
 
     const canvasRef = useRef(null);
     const chartRef = useRef(null);
 
-    const [isLoading, setisLoading] = useState(false);
-    const [elStarted, setelStarted] = useState(false);
-    const [elEnded, setelEnded] = useState(false);
-    const [candidateCount, setcandidateCount] = useState(0);
-    const [candidates, setcandidates] = useState([]);
-    const [winner, setwinner] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [elStarted, setElStarted] = useState(false);
+    const [elEnded, setElEnded] = useState(false);
+    const [candidateCount, setCandidateCount] = useState(0);
+    const [candidates, setCandidates] = useState([]);
+    const [winner, setWinner] = useState(null);
 
     const { data: signer } = useSigner();
-    const [currentAccount, setcurrentAccount] = useState(null);
+    const [currentAccount, setCurrentAccount] = useState(null);
 
     const { address, isDisconnected } = useAccount({
         onDisconnect() {
-            setcurrentAccount(null);
+            setCurrentAccount(null);
         },
     });
 
@@ -101,9 +100,9 @@ export default function Voting() {
     const checkIfWalletConnected = async () => {
         try {
             if (!isDisconnected) {
-                setcurrentAccount(address);
+                setCurrentAccount(address);
             } else {
-                setcurrentAccount(null);
+                setCurrentAccount(null);
             }
         } catch (error) {
             console.error(error);
@@ -112,18 +111,18 @@ export default function Voting() {
 
     const checkStart = async () => {
         try {
+            setIsLoading(true);
             const start = await electionInstance.getStart();
-            setelStarted(start);
+            setElStarted(start);
             const end = await electionInstance.getEnd();
-            setelEnded(end);
-            if (start === true) {
-                fetchCandidatesDetail();
+            setElEnded(end);
+            if (start === true || end === true) {
+                await fetchCandidatesDetail();
             }
-            if (end === true) {
-                getWinner();
-            }
+            setIsLoading(false);
         } catch (error) {
             console.error(error);
+            setIsLoading(false);
         }
     }
 
@@ -131,48 +130,38 @@ export default function Voting() {
         try {
             const cekCount = await electionInstance.getTotalCandidate();
             const totalCandidateCount = cekCount.toNumber();
-            setcandidateCount(totalCandidateCount);
+            setCandidateCount(totalCandidateCount);
 
-            // Loading Candidates details
             const loadedCandidates = [];
+            let maxVoteRecived = 0;
+            let winnerCandidate = null;
 
-            for (let i = 1; i <= cekCount.toNumber(); i++) {
+            for (let i = 1; i <= totalCandidateCount; i++) {
                 const candidateIndex = i - 1;
                 const candidate = await electionInstance.candidateDetails(candidateIndex);
 
-                loadedCandidates.push({
+                const candidateData = {
                     id: candidate.candidateId.toNumber(),
                     header: candidate.header,
                     slogan: candidate.slogan,
                     voteCount: candidate.voteCount.toNumber(),
-                });
+                };
+
+                loadedCandidates.push(candidateData);
+
+                if (candidateData.voteCount > maxVoteRecived) {
+                    maxVoteRecived = candidateData.voteCount;
+                    winnerCandidate = candidateData;
+                }
             }
 
-            setcandidates(loadedCandidates);
+            setCandidates(loadedCandidates);
+            setWinner(winnerCandidate);
 
         } catch (error) {
             console.error("Error fetching candidates:", error);
         }
     };
-
-    const getWinner = async () => {
-        try {
-            // Returns an object having maxium vote count
-            let maxVoteRecived = 0;
-            let winnerCandidate = [];
-            for (let i = 0; i < candidates.length; i++) {
-                if (candidates[i].voteCount > maxVoteRecived) {
-                    maxVoteRecived = candidates[i].voteCount;
-                    winnerCandidate = [candidates[i]];
-                } else if (candidates[i].voteCount === maxVoteRecived) {
-                    winnerCandidate.push(candidates[i]);
-                }
-            }
-            setwinner(winnerCandidate);
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
     return (
         <>
@@ -187,61 +176,68 @@ export default function Voting() {
                 (<>
                     <div className="min-h-screen">
                         <div className="gradient-bg-transactions">
-                            {!elStarted && !elEnded ? (
-                                <NotInit />
-                            ) : elStarted && !elEnded ? (
-                                <div className="item-center">
-                                    {candidates.length < 1 ? (
-                                        <div className="loader">
-                                            <center className='text-white'>No candidates.</center>
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <div className="loader">
-                                                <div className='flex w-full justify-center items-center'>
-                                                    <h3 className='text-white'>Temporary Results | Total candidates: {candidates.length}</h3>
-                                                </div>
-                                                <div className="flex justify-center items-center w-3/4 mx-auto ">
-                                                    <div style={{ maxWidth: '100%', width: '100%' }}>
-                                                        <canvas ref={canvasRef} id="myChart" height={200}></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    )}
+                            {isLoading ? (
+                                <div className="loader">
+                                    <center className='text-white'>Loading...</center>
                                 </div>
-                            ) : !elStarted && elEnded ? (
+                            ) : (
                                 <>
-                                    {candidates.length > 0 ? (
-                                        <div className="container-main">
-                                            <div className="flex flex-col items-center justify-center p-5 text-center">
-                                                <div className="text-2xl font-bold text-red-500">Winner!</div>
-                                                <div className="text-xl font-bold mt-2 text-white">{winner.header}</div>
-                                                <div className="text-base mt-2 text-white">{winner.slogan}</div>
-                                                <div className="flex mt-5">
-                                                    <div className="text-sm font-medium mr-2 text-white">Total Votes:</div>
-                                                    <div className="text-sm font-medium text-red-500">{winner.voteCount}</div>
+                                    {!elStarted && !elEnded ? (
+                                        <NotInit />
+                                    ) : elStarted && !elEnded ? (
+                                        <div className="item-center">
+                                            {candidates.length < 1 ? (
+                                                <div className="loader">
+                                                    <center className='text-white'>No candidates.</center>
                                                 </div>
-                                            </div>
+                                            ) : (
+                                                <>
+                                                    <div className="loader">
+                                                        <div className='flex w-full justify-center items-center'>
+                                                            <h3 className='text-white'>Temporary Results | Total candidates: {candidates.length}</h3>
+                                                        </div>
+                                                        <div className="flex justify-center items-center w-3/4 mx-auto ">
+                                                            <div style={{ maxWidth: '100%', width: '100%' }}>
+                                                                <canvas ref={canvasRef} id="myChart" height={200}></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    ) : elEnded ? (
+                                        <div className="item-center">
+                                            {candidates.length < 1 ? (
+                                                <div className="loader">
+                                                    <center className='text-white'>No candidates.</center>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    {winner && (
+                                                        <div className="container-main">
+                                                            <div className="flex flex-col items-center justify-center p-5 text-center">
+                                                                <div className="text-2xl font-bold text-red-500">Winner!</div>
+                                                                <div className="text-xl font-bold mt-2 text-white">{winner.header}</div>
+                                                                <div className="text-base mt-2 text-white">{winner.slogan}</div>
+                                                                <div className="flex mt-5">
+                                                                    <div className="text-sm font-medium mr-2 text-white">Total Votes:</div>
+                                                                    <div className="text-sm font-medium text-red-500">{winner.voteCount}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    <div className="flex justify-center items-center w-3/4 mx-auto ">
+                                                        <div style={{ maxWidth: '100%', width: '100%' }}>
+                                                            <canvas ref={canvasRef} id="myChart" height={200}></canvas>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
                                         </div>
                                     ) : null}
-                                    <div className="item-center">
-                                        {candidates.length < 1 ? (
-                                            <div className="loader">
-                                                <center className='text-white'>No candidates.</center>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <div className="flex justify-center items-center w-3/4 mx-auto ">
-                                                    <canvas ref={canvasRef} id="myChart" width={400} height={300}></canvas>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
                                 </>
-                            ) : null}
+                            )}
                         </div>
-
                     </div>
                 </>)}
         </>

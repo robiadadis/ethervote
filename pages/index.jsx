@@ -9,7 +9,7 @@ const Election_ABI = require("../utils/Election.json");
 export default function Home() {
 
 	// Contract Address & ABI
-	const contractAddress = "0xf13Be6b0B262b13292f3b037123597D2d8c60D73";
+	const contractAddress = "0x6DCb89Ab5586886de2554c774c9C73a16DAD2511";
 	const contractABI = Election_ABI.abi;
 
 	const [isAdmin, setisAdmin] = useState(false);
