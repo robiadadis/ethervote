@@ -1,21 +1,13 @@
-# SmartContract for Poly-Vote
-## Using Truffle
+wallet address : 0x1C56875602b16fbf49454020535E319F32A25bCE
 
-## Penggunaan
-1. Lakukan cloning repositori **Poly-Vote** , pastikan yang diclone branch solidity
-2. Jalankan _npm i_.
-3. Ganti field env MNEMONIC, APIKEY & POLYGONSCANAPI.
-4. Jalankan diterminal > _truffle compile_.
-5. Jalankan diterminal > _truffle migrate --network polygon_.
-6. Verifikasi SC dengan run > _truffle run verify NamaContract --network polygon_
-
-## Credits
-
-Author: Yanuarso (Twitter: ekoyanu99)
-
-Re deploy smart contract
+re-deploy smart contract
 truffle compile
 truffle migrate --network sepolia --reset
-
-truffle run verify polyvote --network sepolia
 truffle run verify election --network sepolia
+
+used contract
+- 0xad833aBC03d0D55D99D7ca204D59CDCCbed4763f
+
+not used contract
+- 0x1d83567b3C0faea211B3CA076255cFA1e2423d34
+- 0xE8F42d39476B67Ab201D4E1fE76b2178787918f3
