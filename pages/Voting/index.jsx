@@ -8,12 +8,12 @@ const PolyVote_ABI = require("../../utils/PolyVote.json");
 export default function Voting() {
 
     // Contract Address & ABI Election
-    const contractAddress = "0x6DCb89Ab5586886de2554c774c9C73a16DAD2511";
+    const contractAddress = "0xad833aBC03d0D55D99D7ca204D59CDCCbed4763f";
     const contractABI = Election_ABI.abi;
 
     // CA & ABI PolyVote
-    const PolyCA = "0xa2207A9a09209541518CfF604f151Ecd8fBAEba4";
-    const PolyABI = PolyVote_ABI.abi;
+    // const PolyCA = "0xa2207A9a09209541518CfF604f151Ecd8fBAEba4";
+    // const PolyABI = PolyVote_ABI.abi;
     
     const [elStarted, setelStarted] = useState(false);
     const [elEnded, setelEnded] = useState(false);
@@ -48,7 +48,7 @@ export default function Voting() {
     }, [signer]);
 
     const electionInstance = new ethers.Contract(contractAddress, contractABI, signer);
-    const polyInstance = new ethers.Contract(PolyCA, PolyABI, signer);
+    // const polyInstance = new ethers.Contract(PolyCA, PolyABI, signer);
 
     const checkIfWalletConnected = async () => {
         try {
@@ -139,12 +139,12 @@ export default function Voting() {
         }
     };
 
-    const safeMint = async (address) => {
-        const mintTx = await polyInstance.safeMint(address, "https://ipfs.filebase.io/ipfs/QmRGFGbufiNCoS1vv2x26jxzdjMkEZqkLBo8MSRYqQokfC");
+    // const safeMint = async (address) => {
+    //     const mintTx = await polyInstance.safeMint(address, "https://ipfs.filebase.io/ipfs/QmRGFGbufiNCoS1vv2x26jxzdjMkEZqkLBo8MSRYqQokfC");
 
-        await mintTx.wait();
-        window.location.reload();
-    };
+    //     await mintTx.wait();
+    //     window.location.reload();
+    // };
 
     return (
         <>
@@ -263,7 +263,7 @@ export default function Voting() {
                                                     <h3 className='text-white'>Pemilihan telah berakhir</h3>
                                                     <button className='text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'>
                                                         <a
-                                                            to="/Results"
+                                                            href="/Results"
                                                             className='text-white'
                                                         >
                                                             Lihat hasil

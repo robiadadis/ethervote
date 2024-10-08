@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 const Election_ABI = require("../../utils/Election.json");
-const PolyVote_ABI = require("../../utils/PolyVote.json");
+// const PolyVote_ABI = require("../../utils/PolyVote.json");
 import CryptoJS from 'crypto-js';
 import NotInit from "../../components/NotInit";
 import { BsFillFileLock2Fill } from "react-icons/bs";
@@ -20,15 +20,27 @@ function decryptData(ciphertext, secretKey) {
     return decryptedData;
 };
 
+// Encrypt data using SHA-256 encryption
+// function encryptData(data, secretKey) {
+// 	const hash = CryptoJS.SHA256(data + secretKey).toString(); // Combine data with secretKey and hash
+// 	return hash;
+// };
+
+// // Placeholder function for decryption (SHA-256 cannot be decrypted)
+// function decryptData(ciphertext, secretKey) {
+// 	console.log("SHA-256 is a one-way hash function. Decryption is not possible.");
+// 	return null; // Return null since decryption isn't applicable for SHA-256
+// };
+
 export default function Registration() {
 
     // Contract Address & ABI
-    const contractAddress = "0x6DCb89Ab5586886de2554c774c9C73a16DAD2511";
+    const contractAddress = "0xad833aBC03d0D55D99D7ca204D59CDCCbed4763f";
     const contractABI = Election_ABI.abi;
 
     // CA & ABI PolyVote
-    const PolyCA = "0xa2207A9a09209541518CfF604f151Ecd8fBAEba4";
-    const PolyABI = PolyVote_ABI.abi;
+    // const PolyCA = "0xa2207A9a09209541518CfF604f151Ecd8fBAEba4";
+    // const PolyABI = PolyVote_ABI.abi;
 
     const [isAdmin, setisAdmin] = useState(false);
     const [isLoading, setisLoading] = useState(false);
@@ -59,7 +71,7 @@ export default function Registration() {
     }, [signer]);
 
     const electionInstance = new ethers.Contract(contractAddress, contractABI, signer);
-    const polyInstance = new ethers.Contract(PolyCA, PolyABI, signer);
+    // const polyInstance = new ethers.Contract(PolyCA, PolyABI, signer);
 
     const checkIfWalletConnected = async () => {
         try {
