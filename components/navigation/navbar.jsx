@@ -9,7 +9,7 @@ const Election_ABI = require("../../utils/Election.json");
 export default function Navbar() {
 
 	// Contract Address & ABI
-	const contractAddress = "0xad833aBC03d0D55D99D7ca204D59CDCCbed4763f";		
+	const contractAddress = "0x1d83567b3C0faea211B3CA076255cFA1e2423d34";		
 	const contractABI = Election_ABI.abi;
 
 	const [toggleMenu, settoggleMenu] = useState(false);
@@ -67,55 +67,58 @@ export default function Navbar() {
 	}
 
 	return (
-		<nav className="w-full flex md:justify-center justify-between items-center p-4">
-			<div className="md:flex-[0.5] flex-initial justify-center items-center">
-				<a href="/"><p className="text-cyan-400">EtherVote</p></a>
-			</div>
-			<ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
-				{isAdmin ?
-					<>
-						<li className="mx-4 cursor-pointer"><a href="/Verification">Verifikasi User</a></li>
-						<li className="mx-4 cursor-pointer"><a href="/AddCandidate">Tambah Kandidat</a></li>
-						{/* <li className="mx-4 cursor-pointer"><a href="/Registration">Registrasi</a></li> */}
-						<li className="mx-4 cursor-pointer"><a href="/Voting">Voting</a></li>
-						<li className="mx-4 cursor-pointer"><a href="/Results">Hasil</a></li>
-					</>
-					: <>
-						<li className="mx-4 cursor-pointer"><a href="/Registration">Registrasi</a></li>
-						<li className="mx-4 cursor-pointer"><a href="/Voting">Voting</a></li>
-						<li className="mx-4 cursor-pointer"><a href="/Results">Hasil</a></li>
-					</>
-				}
-				<li className="mx-4 cursor-pointer"><ConnectButton></ConnectButton></li>
-			</ul>
-
-			<div className="flex relative">
-				{!toggleMenu && (
-					<HiMenuAlt4 fontSize={28} className="text-white md:hidden cursor-pointer" onClick={() => settoggleMenu(true)} />
-				)}
-				{toggleMenu && (
-					<ul
-						className="z-10 fixed -top-0 -right-2 p-3 w-[70vw] h-screen shadow-2xl md:hidden list-none
-            flex flex-col justify-start items-end rounded-md blue-glassmorphism text-white animate-slide-in"
-					>
-						<AiOutlineClose fontSize={28} className="text-white md:hidden cursor-pointer" onClick={() => settoggleMenu(false)} />
-						{isAdmin ?
-							<>
-								<li className="mx-4 cursor-pointer"><a href="/Verification">Verifikasi</a></li>
-								<li className="mx-4 cursor-pointer"><a href="/AddCandidate">Tambah Kandidat</a></li>
-								<li className="mx-4 cursor-pointer"><a href="/Registration">Registrasi</a></li>
-								<li className="mx-4 cursor-pointer"><a href="/Voting">Voting</a></li>
-								<li className="mx-4 cursor-pointer"><a href="/Results">Hasil</a></li>
-							</>
-							: <>
-								<li className="mx-4 cursor-pointer"><a href="/Registration">Registrasi</a></li>
-								<li className="mx-4 cursor-pointer"><a href="/Voting">Voting</a></li>
-								<li className="mx-4 cursor-pointer"><a href="/Results">Hasil</a></li>
-							</>
-						}
-						<li className="mx-4 cursor-pointer"><ConnectButton></ConnectButton></li>
-					</ul>
-				)}
+		<nav className="sticky top-0 backdrop-blur-md shadow-sm z-50 py-5">
+			<div className="container">
+				<div className="w-full flex justify-between">
+					<div className="flex items-center">
+						<a href="/"><p className="text-dark tracking-widest font-semibold">ETHERVOTE</p></a>
+					</div>
+					<div className="flex justify-end">
+						<ul className="text-dark md:flex hidden list-none flex-row items-center flex-initial gap-5 pl-5">
+							{isAdmin ?
+								<>
+									<li className="cursor-pointer"><a href="/Verification">Verifikasi User</a></li>
+									<li className="cursor-pointer"><a href="/AddCandidate">Tambah Kandidat</a></li>
+									<li className="cursor-pointer"><a href="/Voting">Voting</a></li>
+									<li className="cursor-pointer"><a href="/Results">Hasil</a></li>
+								</>
+								: <>
+									<li className="cursor-pointer font-medium"><a href="/Registration">Registrasi</a></li>
+									<li className="cursor-pointer font-medium"><a href="/Voting">Voting</a></li>
+									<li className="cursor-pointer font-medium"><a href="/Results">Hasil</a></li>
+								</>
+							}
+							<li className="cursor-pointer"><ConnectButton></ConnectButton></li>
+						</ul>
+						<div className="flex relative">
+							{/* Hamburger Menu */}
+							{!toggleMenu && (
+								<HiMenuAlt4 fontSize={28} className="text-dark md:hidden cursor-pointer border" onClick={() => settoggleMenu(true)} />
+							)}
+							{toggleMenu && (
+								<ul className="z-10 fixed -top-0 -right-2 p-3 w-[70vw] h-screen shadow-2xl md:hidden list-none flex flex-col justify-start items-end rounded-md blue-glassmorphism text-dark animate-slide-in"
+								>
+									<AiOutlineClose fontSize={28} className="text-dark md:hidden cursor-pointer" onClick={() => settoggleMenu(false)} />
+									{isAdmin ?
+										<>
+											<li className="cursor-pointer"><a href="/Verification">Verifikasi</a></li>
+											<li className="cursor-pointer"><a href="/AddCandidate">Tambah Kandidat</a></li>
+											<li className="cursor-pointer"><a href="/Registration">Registrasi</a></li>
+											<li className="cursor-pointer"><a href="/Voting">Voting</a></li>
+											<li className="cursor-pointer"><a href="/Results">Hasil</a></li>
+										</>
+										: <>
+											<li className="cursor-pointer"><a href="/Registration">Regitrasi</a></li>
+											<li className="cursor-pointer"><a href="/Voting">Voting</a></li>
+											<li className="cursor-pointer"><a href="/Results">Hasil</a></li>
+										</>
+									}
+									<li className="cursor-pointer"><ConnectButton></ConnectButton></li>
+								</ul>
+							)}
+						</div>
+					</div>
+				</div>
 			</div>
 		</nav>
 	);

@@ -2,40 +2,28 @@ import React from "react";
 
 export default function Footer() {
     return (
-        <div className="w-full flex md:justify-center justify-between items-center flex-col p-4 gradient-bg-footer">
-            <div className="w-full flex sm:flex-row flex-col justify-between items-center my-4">
-                <div className="flex flex-[0.5] justify-center items-center">
-                    {/* <img src={logo} alt="logo" className="w-32" /> */}
-                    <a href="/"><p className="text-cyan-400">EtherVote</p></a>
-                </div>
-                <div className="flex flex-1 justify-evenly items-center flex-wrap sm:mt-0 mt-5 w-full">
-                    <a href="/Registration" className="text-white text-base text-center mx-2 cursor-pointer">
-                        Registrasi
-                    </a>
-                    <a href="/Voting" className="text-white text-base text-center mx-2 cursor-pointer">
-                        Voting
-                    </a>
-                    <a href="/Results" className="text-white text-base text-center mx-2 cursor-pointer">
-                        Hasil
-                    </a>
+        <footer class="bg-dark pt-12 pb-12">
+            <div className="container">
+                <div class="w-full border">
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/3">
+                            <a href="/"><p className="tracking-widest text-white">ETHERVOTE</p></a>
+                        </div>
+                        <div className="w-full md:w-1/3 flex flex-1 text-white text-xs sm:mt-0 mt-5 r items-center text-center justify-end">
+                            <p>Contact us info@ethervote.com</p>
+                            <p className="mx-2">|</p>
+                            <a href="https://github.com/robiadadis" target="_blank" className="text-white flex justify-center items-center hover:text-crimson transition duration-300 ease-in-out">
+                                <svg role="img" width="15" class="fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-full pt-12 mt-12 border-t border-lightgray">
+                        <p class="font-medium text-xs text-white text-center">Made with <span class="text-crimson">❤</span> by <a href="https://www.instagram.com/robiadadis/" target="_blank" class="font-bold text-crimson">@robiadadis</a>, build with Next.js, Truffle, Solidity and Tailwind.</p>
+                        <p class="font-medium text-xs text-white text-center mt-3">Copyright © 2024. All right reserved.</p>
+                    </div>
                 </div>
             </div>
-
-            {/* <div className="flex justify-center items-center flex-col mt-5">
-                <p className="text-white text-sm text-center">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Similique, qui.
-                </p>
-                <p className="text-white text-sm text-center font-medium mt-2">
-                    info@ethervote.com
-                </p>
-            </div> */}
-
-            <div className="sm:w-[90%] w-full h-[0.25px] bg-gray-400 mt-5 " />
-
-            <div className="sm:w-[90%] w-full flex justify-between items-center mt-3">
-                <p className="text-white text-left text-xs">@ethervote2024</p>
-                <p className="text-white text-right text-xs">All rights reserved</p>
-            </div>
-        </div>
+            
+        </footer>
     );
 }
