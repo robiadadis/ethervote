@@ -1,5 +1,5 @@
 {
-  "name": "alpha",
+  "name": "ethervote",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.4.5",
     "ethers": "^5.7.2",
+    "lodash.merge": "^4.6.2",
     "next": "13.1.2",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
