@@ -77,15 +77,15 @@ export default function Navbar() {
 						<ul className="text-dark md:flex hidden list-none flex-row items-center flex-initial gap-5 pl-5">
 							{isAdmin ?
 								<>
-									<li className="cursor-pointer"><a href="/Verification">Verifikasi User</a></li>
-									<li className="cursor-pointer"><a href="/AddCandidate">Tambah Kandidat</a></li>
-									<li className="cursor-pointer"><a href="/Voting">Voting</a></li>
-									<li className="cursor-pointer"><a href="/Results">Hasil</a></li>
+									<li className="cursor-pointer"><a href="/Verification">Verify User</a></li>
+									<li className="cursor-pointer"><a href="/AddCandidate">Add Candidate</a></li>
+									<li className="cursor-pointer"><a href="/Voting">Vote</a></li>
+									<li className="cursor-pointer"><a href="/Results">Result</a></li>
 								</>
 								: <>
-									<li className="cursor-pointer font-medium"><a href="/Registration">Registrasi</a></li>
-									<li className="cursor-pointer font-medium"><a href="/Voting">Voting</a></li>
-									<li className="cursor-pointer font-medium"><a href="/Results">Hasil</a></li>
+									<li className="cursor-pointer font-medium"><a href="/Registration">Register</a></li>
+									<li className="cursor-pointer font-medium"><a href="/Voting">Vote</a></li>
+									<li className="cursor-pointer font-medium"><a href="/Results">Result</a></li>
 								</>
 							}
 							<li className="cursor-pointer"><ConnectButton></ConnectButton></li>
@@ -101,16 +101,16 @@ export default function Navbar() {
 									<AiOutlineClose fontSize={28} className="text-dark md:hidden cursor-pointer" onClick={() => settoggleMenu(false)} />
 									{isAdmin ?
 										<>
-											<li className="cursor-pointer"><a href="/Verification">Verifikasi</a></li>
-											<li className="cursor-pointer"><a href="/AddCandidate">Tambah Kandidat</a></li>
-											<li className="cursor-pointer"><a href="/Registration">Registrasi</a></li>
-											<li className="cursor-pointer"><a href="/Voting">Voting</a></li>
-											<li className="cursor-pointer"><a href="/Results">Hasil</a></li>
+											<li className="cursor-pointer"><a href="/Verification">Verify User</a></li>
+											<li className="cursor-pointer"><a href="/AddCandidate">Add Candidate</a></li>
+											<li className="cursor-pointer"><a href="/Registration">Register</a></li>
+											<li className="cursor-pointer"><a href="/Voting">Vote</a></li>
+											<li className="cursor-pointer"><a href="/Results">Result</a></li>
 										</>
 										: <>
-											<li className="cursor-pointer"><a href="/Registration">Regitrasi</a></li>
-											<li className="cursor-pointer"><a href="/Voting">Voting</a></li>
-											<li className="cursor-pointer"><a href="/Results">Hasil</a></li>
+											<li className="cursor-pointer"><a href="/Registration">Register</a></li>
+											<li className="cursor-pointer"><a href="/Voting">Vote</a></li>
+											<li className="cursor-pointer"><a href="/Results">Result</a></li>
 										</>
 									}
 									<li className="cursor-pointer"><ConnectButton></ConnectButton></li>

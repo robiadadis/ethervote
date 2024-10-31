@@ -4,12 +4,12 @@ export default function Footer() {
     return (
         <footer class="bg-dark pt-12 pb-12">
             <div className="container">
-                <div class="w-full border">
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/3">
+                <div class="w-full">
+                    <div class="flex flex-wrap justify-between">
+                        <div>
                             <a href="/"><p className="tracking-widest text-white">ETHERVOTE</p></a>
                         </div>
-                        <div className="w-full md:w-1/3 flex flex-1 text-white text-xs sm:mt-0 mt-5 r items-center text-center justify-end">
+                        <div className="flex text-white text-xs items-center text-center">
                             <p>Contact us info@ethervote.com</p>
                             <p className="mx-2">|</p>
                             <a href="https://github.com/robiadadis" target="_blank" className="text-white flex justify-center items-center hover:text-crimson transition duration-300 ease-in-out">
@@ -17,8 +17,8 @@ export default function Footer() {
                             </a>
                         </div>
                     </div>
-                    <div class="w-full pt-12 mt-12 border-t border-lightgray">
-                        <p class="font-medium text-xs text-white text-center">Made with <span class="text-crimson">❤</span> by <a href="https://www.instagram.com/robiadadis/" target="_blank" class="font-bold text-crimson">@robiadadis</a>, build with Next.js, Truffle, Solidity and Tailwind.</p>
+                    <div class="w-full pt-5 mt-5 border-t border-lightgray">
+                        <p class="font-medium text-xs text-white text-center">Made with <span class="text-crimson">❤</span> by <a href="https://www.instagram.com/robiadadis/" target="_blank" class="font-bold text-crimson">@robiadadis</a>. Build with Next.js, Ethers.js, Wagmi, Infura, Truffle, Rainbowkit, Solidity and Tailwind.</p>
                         <p class="font-medium text-xs text-white text-center mt-3">Copyright © 2024. All right reserved.</p>
                     </div>
                 </div>

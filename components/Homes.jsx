@@ -5,6 +5,7 @@ import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 const Election_ABI = require("../utils/Election.json");
 import { shortenAddress } from '../utils/shortenAddress';
+import TypingEffect from '../components/TypingEffect';
 // const shortenAddress = require("../utils/shortenAddress");
 
 const companyCommonStyles =
@@ -91,11 +92,12 @@ export default function Homes() {
             <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
                 <div className="flex flex-1 justify-start items-start flex-col mf:mr-10">
                     <h1 className="text-3xl sm:text-5xl text-gray-900 py-1">
-                        E-voting <br /> menggunakan Teknologi Blockchain Ethereum
+                        E-voting <br /> using Blockchain Technology
                     </h1>
-                    <p className="text-left mt-5 text-gray-900 font-light md:w-9/12 w-11/12 text-base">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veniam, cumque.
-                    </p>
+                    {/* <p className="text-left mt-5 text-gray-900 font-light md:w-9/12 w-11/12 text-base">
+                            Discover the exciting world of blockchain voting with EtherVote. Easily cast your votes and participate in secure elections using smart contract technology on the Ethereum blockchain.
+                    </p> */}
+                    <TypingEffect text="discover the exciting world of blockchain voting with EtherVote. Easily cast your votes and participate in secure elections using smart contract technology on the Ethereum blockchain." speed={30}/>
                 </div>
             </div>
         </div>
