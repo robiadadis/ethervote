@@ -32,7 +32,7 @@ const myTheme = merge(darkTheme(), {
     modalOverlay: 'small',
   },
   colors: {
-    accentColor: '#181818',
+    accentColor: '#dd2d4a',
     accentColorForeground: 'white',
     // actionButtonBorder: '...',
     // actionButtonBorderMobile: '...',

@@ -7,7 +7,7 @@ const Election_ABI = require("../../utils/Election.json");
 
 export default function Voting() {
 
-    const contractAddress = "0x1d83567b3C0faea211B3CA076255cFA1e2423d34";
+    const contractAddress = "0xC921AC0B40407418e07f5BE6595212f72268D686";
     const contractABI = Election_ABI.abi;
 
     const canvasRef = useRef(null);

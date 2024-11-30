@@ -12,11 +12,9 @@ module.exports = {
       screens: {
         mf: "990px",
       },
-
       colors: {
-        dark: '#181818', crimson: '#e11d48', lightgray: '#6b7280', darkgray: '#4b5563',
+        dark: '#181818', crimson: '#dd2d4a', gray: '#4b5563', lightgray: '#f1f5f9',
       },
-      
       keyframes: {
         "slide-in": {
           "0%": {

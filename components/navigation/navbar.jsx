@@ -9,7 +9,7 @@ const Election_ABI = require("../../utils/Election.json");
 export default function Navbar() {
 
 	// Contract Address & ABI
-	const contractAddress = "0x1d83567b3C0faea211B3CA076255cFA1e2423d34";		
+	const contractAddress = "0xC921AC0B40407418e07f5BE6595212f72268D686";		
 	const contractABI = Election_ABI.abi;
 
 	const [toggleMenu, settoggleMenu] = useState(false);
@@ -67,7 +67,7 @@ export default function Navbar() {
 	}
 
 	return (
-		<nav className="sticky top-0 backdrop-blur-md shadow-sm z-50 py-5">
+		<nav className="sticky top-0 bg-white shadow-sm z-50 py-5">
 			<div className="container">
 				<div className="w-full flex justify-between">
 					<div className="flex items-center">
@@ -77,15 +77,15 @@ export default function Navbar() {
 						<ul className="text-dark md:flex hidden list-none flex-row items-center flex-initial gap-5 pl-5">
 							{isAdmin ?
 								<>
-									<li className="cursor-pointer"><a href="/Verification">Verify User</a></li>
-									<li className="cursor-pointer"><a href="/AddCandidate">Add Candidate</a></li>
-									<li className="cursor-pointer"><a href="/Voting">Vote</a></li>
-									<li className="cursor-pointer"><a href="/Results">Result</a></li>
+									<li className="cursor-pointer hover:text-crimson transition duration-300 ease-in-out"><a href="/Verification">Verify User</a></li>
+									<li className="cursor-pointer hover:text-crimson transition duration-300 ease-in-out"><a href="/AddCandidate">Add Candidate</a></li>
+									<li className="cursor-pointer hover:text-crimson transition duration-300 ease-in-out"><a href="/Voting">Vote</a></li>
+									<li className="cursor-pointer hover:text-crimson transition duration-300 ease-in-out"><a href="/Results">Result</a></li>
 								</>
 								: <>
-									<li className="cursor-pointer font-medium"><a href="/Registration">Register</a></li>
-									<li className="cursor-pointer font-medium"><a href="/Voting">Vote</a></li>
-									<li className="cursor-pointer font-medium"><a href="/Results">Result</a></li>
+									<li className="cursor-pointer font-medium hover:text-crimson transition duration-300 ease-in-out"><a href="/Registration">Register</a></li>
+									<li className="cursor-pointer font-medium hover:text-crimson transition duration-300 ease-in-out"><a href="/Voting">Vote</a></li>
+									<li className="cursor-pointer font-medium hover:text-crimson transition duration-300 ease-in-out"><a href="/Results">Result</a></li>
 								</>
 							}
 							<li className="cursor-pointer"><ConnectButton></ConnectButton></li>
@@ -93,27 +93,44 @@ export default function Navbar() {
 						<div className="flex relative">
 							{/* Hamburger Menu */}
 							{!toggleMenu && (
-								<HiMenuAlt4 fontSize={28} className="text-dark md:hidden cursor-pointer border" onClick={() => settoggleMenu(true)} />
+								<HiMenuAlt4 fontSize={24} className="text-dark md:hidden cursor-pointer" onClick={() => settoggleMenu(true)} />
 							)}
 							{toggleMenu && (
-								<ul className="z-10 fixed -top-0 -right-2 p-3 w-[70vw] h-screen shadow-2xl md:hidden list-none flex flex-col justify-start items-end rounded-md blue-glassmorphism text-dark animate-slide-in"
-								>
-									<AiOutlineClose fontSize={28} className="text-dark md:hidden cursor-pointer" onClick={() => settoggleMenu(false)} />
+								<ul className="z-10 fixed -top-0 -right-0 p-0 w-[60vw] h-screen shadow-xl md:hidden bg-dark text-white animate-slide-in pt-40 pl-10">
+									<AiOutlineClose fontSize={24} className="text-dark md:hidden cursor-pointer bg-white border absolute top-5 right-5" onClick={() => settoggleMenu(false)} />
 									{isAdmin ?
 										<>
-											<li className="cursor-pointer"><a href="/Verification">Verify User</a></li>
-											<li className="cursor-pointer"><a href="/AddCandidate">Add Candidate</a></li>
-											<li className="cursor-pointer"><a href="/Registration">Register</a></li>
-											<li className="cursor-pointer"><a href="/Voting">Vote</a></li>
-											<li className="cursor-pointer"><a href="/Results">Result</a></li>
+											<li className="cursor-pointer mb-3">
+												<a href="/Verification" className="hover:text-crimson transition duration-300 ease-in-out">Verify User</a>
+											</li>
+											<li className="cursor-pointer mb-3">
+												<a href="/AddCandidate" className="hover:text-crimson transition duration-300 ease-in-out">Add Candidate</a
+											></li>
+											<li className="cursor-pointer mb-3">
+												<a href="/Registration" className="hover:text-crimson transition duration-300 ease-in-out">Register</a>
+											</li>
+											<li className="cursor-pointer mb-3">
+												<a href="/Voting" className="hover:text-crimson transition duration-300 ease-in-out">Vote</a>
+											</li>
+											<li className="cursor-pointer mb-3">
+												<a href="/Results" className="hover:text-crimson transition duration-300 ease-in-out">Result</a>
+											</li>
 										</>
 										: <>
-											<li className="cursor-pointer"><a href="/Registration">Register</a></li>
-											<li className="cursor-pointer"><a href="/Voting">Vote</a></li>
-											<li className="cursor-pointer"><a href="/Results">Result</a></li>
+											<li className="cursor-pointer mb-3">
+												<a href="/Registration" className="hover:text-crimson transition duration-300 ease-in-out">Register</a>
+											</li>
+											<li className="cursor-pointer mb-3">
+												<a href="/Voting" className="hover:text-crimson transition duration-300 ease-in-out">Vote</a>
+											</li>
+											<li className="cursor-pointer mb-3">
+												<a href="/Results" className="hover:text-crimson transition duration-300 ease-in-out">Result</a>
+											</li>
 										</>
 									}
-									<li className="cursor-pointer"><ConnectButton></ConnectButton></li>
+									<li className="cursor-pointer mt-7">
+										<ConnectButton></ConnectButton>
+									</li>
 								</ul>
 							)}
 						</div>
