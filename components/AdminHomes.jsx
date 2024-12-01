@@ -9,7 +9,7 @@ import { shortenAddress } from '../utils/shortenAddress';
 import { useForm } from "react-hook-form";
 import Homes from "./Homes";
 
-const btn = 'text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer';
+const btn = 'text-white w-full mt-5 p-2 bg-dark cursor-pointer';
 
 export default function AdminHomes() {
 
@@ -128,164 +128,162 @@ export default function AdminHomes() {
     };
 
     return (
-
-        <div className="flex w-full justify-center items-center">
-            <div className="flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2">
-                <div className="flex flex-1 justify-start items-start flex-col mf:mr-10">
-                    <div>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            {!elStarted & !elEnded ? (
-                                <div className="p-2 sm:w-96 w-full flex flex-col justify-start items-center white-glassmorphism">
-                                    {/* about-admin */}
-                                    <div className="about-admin">
-                                        <h2 className='text-white text-center'>About Admin</h2>
-                                        <div className="mb-3">
-                                            <div>
-                                                <label className="label-home text-white">
-                                                    Full Name{" "}
-                                                    {errors.adminFName && <EMsg msg="*required" />}
-                                                    <input
-                                                        className="input-home my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm blue-glassmorphism"
-                                                        type="text"
-                                                        placeholder="First Name"
-                                                        {...register("adminFName", {
-                                                            required: true,
-                                                        })}
-                                                    />
-                                                    <input
-                                                        className="input-home my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm blue-glassmorphism"
-                                                        type="text"
-                                                        placeholder="Last Name"
-                                                        {...register("adminLName")}
-                                                    />
-                                                </label>
-
-                                                <label className="label-home text-white">
-                                                    Email{" "}
-                                                    {errors.adminEmail && (
-                                                        <EMsg msg={errors.adminEmail.message} />
-                                                    )}
-                                                    <input
-                                                        className="input-home my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm blue-glassmorphism"
-                                                        placeholder="eg. you@example.com"
-                                                        name="adminEmail"
-                                                        {...register("adminEmail", {
-                                                            required: "*Required",
-                                                            pattern: {
-                                                                value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/, // email validation using RegExp
-                                                                message: "*Invalid",
-                                                            },
-                                                        })}
-                                                    />
-                                                </label>
-
-                                                <label className="label-home text-white">
-                                                    Job Title or Position{" "}
-                                                    {errors.adminTitle && <EMsg msg="*required" />}
-                                                    <input
-                                                        className="input-home my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm blue-glassmorphism"
-                                                        type="text"
-                                                        placeholder="eg. HR Head "
-                                                        {...register("adminTitle", {
-                                                            required: true,
-                                                        })}
-                                                    />
-                                                </label>
-                                            </div>
+        <div className="p-8">
+            <div className="h-screen -mt-20 flex justify-center items-center">
+            <form onSubmit={handleSubmit(onSubmit)} className="border p-5">
+                {!elStarted & !elEnded ? (
+                    <div className="p-2 sm:w-96 w-full flex flex-col justify-start items-center">
+                        {/* about-admin */}
+                        <div className="about-admin">
+                            <p className="text-dark font-medium text-lg mb-5">About Admin</p>
+                            <div className="border">
+                                <div>
+                                    <label className="text-dark">
+                                        Full Name{" "}
+                                        {errors.adminFName && <EMsg msg="*required" />}
+                                        <div className="flex gap-2">
+                                            <input
+                                                className="w-full p-2 text-dark border text-sm shadow-sm"
+                                                type="text"
+                                                placeholder="First Name"
+                                                {...register("adminFName", {
+                                                    required: true,
+                                                })}
+                                            />
+                                            <input
+                                                className="w-full p-2 text-dark border text-sm shadow-sm"
+                                                type="text"
+                                                placeholder="Last Name"
+                                                {...register("adminLName")}
+                                            />
                                         </div>
-                                    </div>
-                                    {/* about-election */}
-                                    <div className="about-election">
-                                        <h2 className='text-white text-center'>About Election</h2>
-                                        <div className="mt-3">
-                                            <div>
-                                                <label className="label-home text-white">
-                                                    Election Title{" "}
-                                                    {errors.electionTitle && <EMsg msg="*required" />}
-                                                    <input
-                                                        className="input-home my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm blue-glassmorphism"
-                                                        type="text"
-                                                        placeholder="eg. School Election"
-                                                        {...register("electionTitle", {
-                                                            required: true,
-                                                        })}
-                                                    />
-                                                </label>
-                                                <label className="label-home text-white">
-                                                    Organization Name{" "}
-                                                    {errors.organizationName && <EMsg msg="*required" />}
-                                                    <input
-                                                        className="input-home my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm blue-glassmorphism"
-                                                        type="text"
-                                                        placeholder="eg. Lifeline Academy"
-                                                        {...register("organizationTitle", {
-                                                            required: true,
-                                                        })}
-                                                    />
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : elStarted ? (
-                                <Homes el={elDetails} account={currentAccount} />
-                            ) : null}
-                            
-                            <div className="justify-center items-center">
-                                {!elStarted ? (
-                                    <>
-                                        {!elEnded ? (
-                                            <>
-                                                <div className="mb-3 mt-3">
-                                                    <h2 className="text-white text-center">Do not forget to add candidates.</h2>
+                                    </label>
 
-                                                    <button type="button" className={btn}>
-                                                        <a
-                                                            title="Add a new "
-                                                            href="/AddCandidate"
-                                                            className="text-white"
-                                                        >
-                                                            Add Candidate
-                                                        </a>
-                                                    </button>
-                                                    <button type="submit" className={btn}>
-                                                        Start Election {elEnded ? "Again" : null}
-                                                    </button>
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <h3 className="text-white">Re-deploy the contract to start election again.</h3>
+                                    <label className="text-dark">
+                                        Email{" "}
+                                        {errors.adminEmail && (
+                                            <EMsg msg={errors.adminEmail.message} />
                                         )}
-                                        {elEnded ? (
-                                            <center>
-                                                <p className="text-white">The election ended.</p>
-                                            </center>
-                                        ) : null}
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2">
-                                            <div className="flex w-full justify-center items-center">
-                                                <center className="flex w-full justify-center items-center">
-                                                    <p className="text-white">The election started.</p>
-                                                </center>
-                                                <button
-                                                    type="button"
-                                                    onClick={endElection}
-                                                    className={btn}
-                                                >
-                                                    End
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <input
+                                            className="w-full  p-2 text-dark border text-sm shadow-sm"
+                                            placeholder="eg. you@example.com"
+                                            name="adminEmail"
+                                            {...register("adminEmail", {
+                                                required: "*Required",
+                                                pattern: {
+                                                    value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/, // email validation using RegExp
+                                                    message: "*Invalid",
+                                                },
+                                            })}
+                                        />
+                                    </label>
 
-                                    </>
-                                )}
+                                    <label className="text-dark">
+                                        Job Title or Position{" "}
+                                        {errors.adminTitle && <EMsg msg="*required" />}
+                                        <input
+                                            className="w-full p-2 text-dark border text-sm shadow-sm"
+                                            type="text"
+                                            placeholder="eg. HR Head "
+                                            {...register("adminTitle", {
+                                                required: true,
+                                            })}
+                                        />
+                                    </label>
+                                </div>
                             </div>
-                        </form>
+                        </div>
+                        {/* about-election */}
+                        <div className="about-election">
+                            <h2 className='text-dark'>About Election</h2>
+                            <div className="mt-3">
+                                <div>
+                                    <label className="label-home text-dark">
+                                        Election Title{" "}
+                                        {errors.electionTitle && <EMsg msg="*required" />}
+                                        <input
+                                            className="w-full my-2 p-2 text-dark border text-sm shadow-sm"
+                                            type="text"
+                                            placeholder="eg. School Election"
+                                            {...register("electionTitle", {
+                                                required: true,
+                                            })}
+                                        />
+                                    </label>
+                                    <label className="label-home text-dark">
+                                        Organization Name{" "}
+                                        {errors.organizationName && <EMsg msg="*required" />}
+                                        <input
+                                            className="w-full my-2 p-2 text-dark border text-sm shadow-sm"
+                                            type="text"
+                                            placeholder="eg. Lifeline Academy"
+                                            {...register("organizationTitle", {
+                                                required: true,
+                                            })}
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                ) : elStarted ? (
+                    <Homes el={elDetails} account={currentAccount} />
+                ) : null}
+                
+                <div className="justify-center items-center">
+                    {!elStarted ? (
+                        <>
+                            {!elEnded ? (
+                                <>
+                                    <div className="mb-3 mt-3">
+                                        {/* <h2 className="text-dark text-center">Do not forget to add candidates.</h2>
+
+                                        <button type="button" className={btn}>
+                                            <a
+                                                title="Add a new "
+                                                href="/AddCandidate"
+                                                className=""
+                                            >
+                                                Add Candidate
+                                            </a>
+                                        </button> */}
+                                        <button type="submit" className={btn}>
+                                            Start Election {elEnded ? "Again" : null}
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
+                                <h3 className="text-dark">Re-deploy the contract to start election again.</h3>
+                            )}
+                            {elEnded ? (
+                                <center>
+                                    <p className="text-dark">The election ended.</p>
+                                </center>
+                            ) : null}
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2">
+                                <div className="flex w-full justify-center items-center">
+                                    <center className="flex w-full justify-center items-center">
+                                        <p className="text-dark">The election started.</p>
+                                    </center>
+                                    <button
+                                        type="button"
+                                        onClick={endElection}
+                                        className={btn}
+                                    >
+                                        End
+                                    </button>
+                                </div>
+                            </div>
+
+                        </>
+                    )}
                 </div>
+            </form>
             </div>
         </div>
-    );
+        
+);
 };

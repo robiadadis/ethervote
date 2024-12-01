@@ -4,10 +4,8 @@ import { BsInfoCircle } from "react-icons/bs";
 import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 const Election_ABI = require("../utils/Election.json");
-import { shortenAddress } from '../utils/shortenAddress';
 import Typewriter from 'typewriter-effect';
 import Footer from "./navigation/footer";
-// const shortenAddress = require("../utils/shortenAddress");
 
 const companyCommonStyles =
     "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
@@ -96,15 +94,15 @@ export default function Homes() {
     return (
         <div className="container">
             <div className="flex h-screen justify-center items-center -mt-20">
-                <div className="md:w-1/2">
+                <div className="md:w-2/3">
                     <div className="">
                         <h1 className="pb-2 border-b text-slate-300">
-                            <span className="font-light bg-dark text-white border px-1 text-white">Ethervote</span>  <span className="text-sm text-dark">| E-voting using Blockchain Technology</span>
+                            <span className="text-sm text-white bg-dark border p-1 px-2">Ethervote</span><span className="text-sm text-dark p-1 px-2">| E-voting using Blockchain Technology</span>
                         </h1>
                         <p className="text-left mt-5 text-gray font-medium">
                                 Discover the exciting world of blockchain voting with Ethervote. Easily cast your votes and participate in secure elections using smart contract technology on ethereum blockchain.
                         </p>
-                        <p className="mt-5 text-xs font-medium">
+                        <p className="mt-5 text-sm font-medium">
                             <>
                                 {showTypewriter && (
                                     <Typewriter

@@ -24,7 +24,7 @@ export default function Footer() {
                         </div>
                     </div>
                     <div class="w-full pt-5 mt-5 border-t border-lightgray">
-                        <p class="text-xs text-white text-center">Made with <span class="text-crimson">❤</span> by <a href="https://www.instagram.com/robiadadis/" target="_blank" class="font-bold text-crimson">@robiadadis</a>. Build with React.js, Ethers.js, Wagmi, Infura, Truffle, Rainbowkit, Solidity and Tailwind.</p>
+                        <p class="text-xs text-white text-center">Made with <span class="text-crimson">❤</span> by <a href="https://www.instagram.com/robiadadis/" target="_blank" class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#F58529] via-[#DD2A7B] to-[#8134AF]">@robiadadis</a>. Build with React.js, Tailwind CSS, Solidity, Truffle, Ethers.js, Wagmi, Rainbowkit, and Infura.</p>
                         <p class="text-xs text-white text-center mt-3">Copyright © 2024. All right reserved.</p>
                     </div>
                 </div>
