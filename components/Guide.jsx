@@ -33,7 +33,7 @@ const Guide = () => (
                         How to use Ethervote
                     </h1>
                     <p className="text-gray text-sm font-medium">
-                        Simply Connect your wallet, register, and cast your vote.
+                        Simply connect your wallet, register, and cast your vote.
                     </p>
                 </div>
                 {/* Guide Card */}

@@ -35,7 +35,7 @@ function decryptData(ciphertext, secretKey) {
 export default function Registration() {
 
     // Contract Address & ABI
-    const contractAddress = "0xC921AC0B40407418e07f5BE6595212f72268D686";
+    const contractAddress = "0x946081373B0B9Bf607adeA11339CF3E4D867FDBA";
     const contractABI = Election_ABI.abi;
 
     // CA & ABI PolyVote

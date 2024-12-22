@@ -8,7 +8,7 @@ import { BsFillFileLock2Fill } from "react-icons/bs";
 export default function AddCandidate() {
 
     // Contract Address & ABI Election
-    const contractAddress = "0xC921AC0B40407418e07f5BE6595212f72268D686";
+    const contractAddress = "0x946081373B0B9Bf607adeA11339CF3E4D867FDBA";
     const contractABI = Election_ABI.abi;
 
     const [isAdmin, setisAdmin] = useState(false);

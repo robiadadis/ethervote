@@ -33,7 +33,7 @@ function decryptData(ciphertext, secretKey) {
 export default function Registration() {
 
 	// Contract Address & ABI
-	const contractAddress = "0xC921AC0B40407418e07f5BE6595212f72268D686";
+	const contractAddress = "0x946081373B0B9Bf607adeA11339CF3E4D867FDBA";
 	const contractABI = Election_ABI.abi;
 
 	const [isLoading, setisLoading] = useState(false);
@@ -148,98 +148,116 @@ export default function Registration() {
 				(<>
 					<div className="min-h-screen">
 						<div className="loader">
-                            <p className="text-white font-semibold text-lg mt-1"> Hubungkan dengan dompet anda </p>
+                            <p className="text-dark font-semibold text-lg mt-1">Please connect your wallet</p>
                         </div>
 					</div>
 				</>) :
 				(<>
-					<div className="min-h-screen">
-						<div className="gradient-bg-services">
+					<div className="">
+						<div className="container lg:-mt-20">
 							{!elStarted && !elEnded ? (
 								<>
 									<NotInit />
 								</>
 							) : elStarted && !elEnded ? (
 								<>
-									<div className='flex w-full justify-center items-center'>
-										<div className='flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4'>
-											<div className='flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10'>
-												<div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
-													<h5 className='text-xl sm:text-3xl text-white text-gradient py-1'>Registrasi</h5>
-													<div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-														<form>
-															<div className="mb-3">
-																<label className={`form-label text-white`}>
-																	Alamat Dompet
-																	<input
-																		className={`form-control my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism`}
-																		type="text"
-																		value={currentAccount}
-																	/>{" "}
-																</label>
-															</div>
-															<div className="mb-3">
-																<label className={`form-label text-white`}>
-																	Nama
-																	<input
-																		className={`form-control my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism`}
-																		type="text"
-																		placeholder="eg. Ava"
-																		value={voterName}
-																		onChange={updateVoterName}
-																	/>{" "}
-																</label>
-															</div>
-															<div className="mb-3">
-																<label className={`form-label text-white`}>
-																	Nomor Handphone <span style={{ color: "tomato" }}>*</span>
-																	<input
-																		className={`form-control my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism`}
-
-																		type="number"
-																		placeholder="eg. 628231234567"
-																		value={voterPhone}
-																		onChange={updateVoterPhone}
-																	/>
-																</label>
-															</div>
-															<button
-																type='button'
-																className="text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer"
-																disabled={
-																	voterPhone.length !== 13 ||
-																	currentVoter.isVerified || isLoading
-																}
-																onClick={registerAsVoter}
-															>
-																{currentVoter.isRegistered
-																	? "Update"
-																	: "Register"}
-															</button>
-														</form>
+									<div className="md:h-screen flex w-full justify-center items-center py-5">
+										<div className="flex mf:flex-row flex-col justify-between">
+											{/* Registration Form */}
+											<div className="flex flex-col flex-1 items-start w-full p-5">
+												<p className="text-dark font-semibold text-lg mb-5">[ Registration Form ]</p>
+												<p className="w-full text-xs text-gray mb-5">
+													This registration form is designed to collect user information. Please fill in all the required fields, such as name and phone number.
+												</p>
+												<form className="border border-gray border-opacity-20 shadow-sm p-5 bg-lightgray w-full">
+													<div className="mb-5">
+														<label className={`form-label`}>
+															<span className="text-dark text-base font-medium">
+																Wallet Address
+															</span>
+															<input
+																className={`form-control w-full p-2 text-dark border-none text-sm`}
+																type="text"
+																value={currentAccount}
+															/>{" "}
+														</label>
 													</div>
-												</div>
+													<div className="mb-5">
+														<label className={`form-label`}>
+															<span className="text-dark text-base font-medium">
+																Name
+															</span>
+															<input
+																className={`form-control w-full p-2 text-dark border-none text-sm`}
+																type="text"
+																placeholder="eg. yourname"
+																value={voterName}
+																onChange={updateVoterName}
+															/>{" "}
+														</label>
+													</div>
+													<div className="mb-3">
+														<label className={`form-label text-dark`}>
+															<span className="text-dark text-base font-medium">
+																Phone
+															</span>
+															<input
+																className={`form-control w-full p-2 text-dark border-none text-sm`}
+																type="number"
+																placeholder="eg. 6289123456789"
+																value={voterPhone}
+																onChange={updateVoterPhone}
+															/>
+														</label>
+													</div>
+													<button
+														type="button"
+														className={`text-white w-full mt-5 p-3 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out shadow-sm ${
+															isLoading ? "opacity-70 cursor-not-allowed" : ""
+														}`}
+														disabled={
+															voterPhone.length < 12 || 
+															voterPhone.length > 13 || 
+															currentVoter.isVerified || 
+															isLoading
+														}
+														onClick={registerAsVoter}
+													>
+														{isLoading ? (
+															<div className="flex items-center justify-center">
+																<svg
+																	className="animate-spin -mt-1 h-6 w-6 text-white inline-block"
+																	xmlns="http://www.w3.org/2000/svg"
+																	fill="none"
+																	viewBox="0 0 24 24"
+																>
+																	<circle className="opacity-15" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+																	<path
+																		className="opacity-50"
+																		fill="currentColor"
+																		d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+																	></path>
+																</svg>
+															</div>
+														) : currentVoter.isRegistered ? (
+															"Update"
+														) : (
+															"Register"
+														)}
+													</button>
+												</form>
 											</div>
-											<br />
-											<div className='flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10'>
-												<div className="flex flex-1 justify-start items-center flex-col mf:mr-10">
-													{loadCurrentVoter(
-														currentVoter,
-														currentVoter.isRegistered
-													)}
+											{/* End Registration Form */}
 
-													<br />
-													<h1 className="text-3xl sm:text-5xl text-white text-gradient py-1">
-														Catatan
-													</h1>
-													<p className="text-left mt-5 text-red-400 font-light md:w-9/12 w-11/12 text-base">
-														Pastikan alamat akun dan nomor telepon Anda sudah benar.
-														Admin mungkin tidak menyetujui akun Anda jika nomor Telepon yang diberikan tidak cocok dengan alamat akun yang terdaftar di katalog admin.
-													</p>
-												</div>
+											{/* Details Registration */}
+											<div className="flex flex-1 p-5">
+												{loadCurrentVoter(
+													currentVoter,
+													currentVoter.isRegistered
+												)}
 											</div>
+											{/* End Details Registration */}
 										</div>
-
 									</div>
 								</>
 								) : !elStarted && elEnded ? (
@@ -274,51 +292,74 @@ export default function Registration() {
 	);
 }
 
-const companyCommonStyles =
-	"min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
-
 export function loadCurrentVoter(voter, isRegistered) {
 	return (
 		<>
-			<div
-				className='flex flex-1 justify-start items-center flex-col mf:mr-10'
-			>
-				<h1 className="text-3xl sm:text-5xl text-white text-gradient py-1">
-					Detail Registrasi Anda
-				</h1>
-				<br />
-				<div className='sm:flex flex-1 justify-start items-center flex-col mf:mr-10 sm:flex-col'>
-					<table className={`table text-center border-separate border-spacing-2 border border-slate-500 ${companyCommonStyles}`}>
-						<tr>
-							<th className='border border-slate-600'>Alamat Dompet</th>
-							<td className='border border-slate-600 '>
-								<div className="overflow-x-auto max-w-[200px] md:max-w-[none]">
-									{voter.address}
+			<div className="flex flex-col items-start w-full">
+				<p className="text-dark font-semibold text-lg mb-5">
+					[ Your Registered Info ]
+				</p>
+				<p className="w-full text-xs text-gray mb-5">
+					This section displays the information you have registered in the system. It includes details such as wallet address, name, phone, and account status.
+				</p>
+				<div className="w-full">
+					<table className="w-full text-center shadow-sm">
+						<tr className="bg-lightgray">
+							<th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Wallet Address</th>
+							<td className="border border-gray border-opacity-20 text-dark p-2">
+								<div className="flex justify-center">
+									<div className="overflow-x-auto max-w-[250px] md:max-w-[none] w-full">
+										<span className="text-dark text-sm">
+											{voter.address}
+										</span>
+									</div>
 								</div>
 							</td>
 						</tr>
-						<tr>
-							<th className='border border-slate-600'>Nama</th>
-							<td className='border border-slate-600'>{voter.name}</td>
+						<tr className="bg-white">
+							<th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Name</th>
+							<td className="border border-gray border-opacity-20 text-dark text-sm p-2">{voter.name && voter.name.trim() !== "" ? voter.name : "-"}
+							</td>
 						</tr>
-						<tr>
-							<th className='border border-slate-600'>No. HP</th>
-							<td className='border border-slate-600'>{voter.phone}</td>
+						<tr className="bg-lightgray">
+							<th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Phone</th>
+							<td className="border border-gray border-opacity-20 text-dark text-sm p-2">{voter.phone && voter.phone.trim() !== "" ? voter.phone : "-"}</td>
 						</tr>
-						<tr>
-							<th className='border border-slate-600'>Sudah voting</th>
-							<td className='border border-slate-600'>{voter.hasVoted ? "Iya" : "Tidak"}</td>
+						<tr className="bg-white">
+							<th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Registered</th>
+							<td
+								className={`border border-gray border-opacity-20 text-sm font-medium p-2 ${
+									voter.isRegistered ? "text-lime-500" : "text-crimson"
+								}`}
+								>
+								{voter.isRegistered ? "True" : "False"}
+							</td>
 						</tr>
-						<tr>
-							<th className='border border-slate-600'>Verifikasi</th>
-							<td className='border border-slate-600'>{voter.isVerified ? "Iya" : "Tidak"}</td>
+						<tr className="bg-lightgray">
+							<th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Verification</th>
+							<td
+								className={`border border-gray border-opacity-20 text-sm font-medium p-2 ${
+									voter.isVerified ? "text-lime-500" : "text-crimson"
+								}`}
+								>
+								{voter.isVerified ? "True" : "False"}
+							</td>
 						</tr>
-						<tr>
-							<th className='border border-slate-600'>Sudah terdaftar</th>
-							<td className='border border-slate-600'>{voter.isRegistered ? "Iya" : "Tidak"}</td>
+						<tr className="bg-white">
+							<th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Voted</th>
+							<td
+								className={`border border-gray border-opacity-20 text-sm font-medium p-2 ${
+									voter.hasVoted ? "text-lime-500" : "text-crimson"
+								}`}
+								>
+								{voter.hasVoted ? "True" : "False"}
+							</td>
 						</tr>
 					</table>
 				</div>
+				<p className="w-full text-xs text-gray mt-5">
+					<span className="text-crimson">Note</span>: Admin might not approve your account if the provided phone number does not matches the account address registered in admins catalogue.
+				</p>
 			</div>
 		</>
 	);

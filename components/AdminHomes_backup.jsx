@@ -1,16 +1,23 @@
 import { useState, useEffect } from "react";
+import { SiHiveBlockchain } from "react-icons/si";
+import { BsInfoCircle } from "react-icons/bs";
 import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 const Election_ABI = require("../utils/Election.json");
+import { shortenAddress } from '../utils/shortenAddress';
+// const shortenAddress = require("../utils/shortenAddress");
 import { useForm } from "react-hook-form";
+import Homes from "./Homes";
 
 export default function AdminHomes() {
+
     const [elStarted, setelStarted] = useState(false);
     const [elEnded, setelEnded] = useState(false);
     const [elDetails, setelDetails] = useState({});
 
     // Contract Address & ABI
     const contractAddress = "0x946081373B0B9Bf607adeA11339CF3E4D867FDBA";
+    // const contractAddress = "0xF70C3A67FDF9E2ddE0412817b0d938cC01c3767e";
     const contractABI = Election_ABI.abi;
 
     const { data: signer } = useSigner();
@@ -44,7 +51,7 @@ export default function AdminHomes() {
         } catch (error) {
             console.error(error);
         }
-    };
+    }
 
     const checkStart = async () => {
         try {
@@ -58,7 +65,7 @@ export default function AdminHomes() {
         } catch (error) {
             console.error(error);
         }
-    };
+    }
 
     const fetchElectionDetail = async () => {
         try {
@@ -78,27 +85,32 @@ export default function AdminHomes() {
         } catch (error) {
             console.error(error);
         }
-    };
+    }
 
+    // end election
     const endElection = async () => {
-        const endTx = await electionInstance.endElection();
+        const endTx = await electionInstance.endElection()
+        
         await endTx.wait();
-        setelEnded(true); // Set elEnded to true when the election ends
-    };
 
+        window.location.reload();
+    };
+    // register and start election
     const registerElection = async (data) => {
         const registElectionTx = await electionInstance.setElectionDetails(
-            data.adminFName.toLowerCase() + " " + data.adminLName.toLowerCase(),
-            data.adminEmail.toLowerCase(),
-            data.adminTitle.toLowerCase(),
-            data.electionTitle.toLowerCase(),
-            data.organizationTitle.toLowerCase()
+                data.adminFName.toLowerCase() + " " + data.adminLName.toLowerCase(),
+                data.adminEmail.toLowerCase(),
+                data.adminTitle.toLowerCase(),
+                data.electionTitle.toLowerCase(),
+                data.organizationTitle.toLowerCase()
         );
-
+        
         await registElectionTx.wait();
+
         window.location.reload();
     };
 
+    // Contains of Home page for the Admin
     const {
         handleSubmit,
         register,
@@ -114,14 +126,12 @@ export default function AdminHomes() {
     };
 
     return (
-        <div className="container h-screen -mt-20 flex justify-center items-center">
-            {elEnded ? (
-                <h3 className="text-dark">Re-deploy the contract to start election again.</h3>
-            ) : !elStarted ? (
-                <form onSubmit={handleSubmit(registerElection)} className="border border-gray border-opacity-20 shadow-sm p-10 bg-lightgray">
-                    <p className="text-left font-semibold text-lg">Admin & Election Setup Form</p>
-                    <p className="text-xs text-gray">Set up admin details and election details.</p>
-                    <div className="border-b border-gray border-opacity-50 my-5"></div>
+        <div className="h-screen -mt-20 flex justify-center items-center">
+            <form onSubmit={handleSubmit(onSubmit)} className="border border-gray border-opacity-20 shadow-sm p-10 bg-lightgray">
+                <p className="text-left font-semibold text-lg">Admin & Election Setup Form</p>
+                <p className="text-xs text-gray">Set up admin details and election details.</p>
+                <div className="border-b border-gray border-opacity-50 my-5"></div>
+                {!elStarted & !elEnded ? (
                     <div className="sm:w-96 w-full flex flex-col justify-start items-center">
                         {/* about-admin */}
                         <div className="about-admin">
@@ -217,50 +227,46 @@ export default function AdminHomes() {
                             </div>
                         </div>
                     </div>
-
-                    <button
-                        type="submit"
-                        className="text-white w-full mt-5 p-2 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out"
-                    >
-                        Start Election
-                    </button>
-                </form>
-            ) : (
-                <div className="w-full">
-                    <p className="text-dark font-medium text-center mb-3 mt-20">Admin & Election Details</p>
-                    <div className="flex justify-center">
-                        <div className="w-full md:w-1/2 flex flex-row justify-center items-center border">
-                            <p className="text-dark text-sm p-3 text-center">
-                                Admin Email : {elDetails?.adminEmail || "-"} | Election Title :{" "}
-                                {elDetails?.electionTitle || "-"}
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex justify-center mb-5">
-                        <div className="w-full bg-dark md:w-1/2">
-                            <p className="p-5 text-white text-center">
-                                Election Status :{" "}
-                                {elStarted ? (
-                                    <span className="text-lime-500 animate-pulse">Started</span>
-                                ) : (
-                                    <span className="text-crimson animate-pulse">Not Started</span>
-                                )}
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex flex-col justify-center items-center">
-                        <div className="w-full border-t md:w-1/2 my-5"></div>
-                        <p className="w-full text-center text-xs text-gray md:w-1/2"><span className="text-crimson">Warning</span>: Ending the election will close all voting sessions, lock the final results, and prevent any further changes from voters. Ensure that all votes have been recorded and reviewed before proceeding. This action cannot be undone.</p>
-                        <button
-                            type="button"
-                            onClick={endElection}
-                            className="text-white w-full mt-5 bg-dark cursor-pointer md:w-1/4 p-3 shadow-md hover:text-crimson transition duration-300 ease-in-out"
-                        >
-                            <span className="">END ELECTION</span>
-                        </button>
-                    </div>
+                ) : elStarted ? (
+                    <Homes el={elDetails} account={currentAccount} />
+                ) : null}
+                
+                <div className="justify-center items-center">
+                    {!elStarted ? (
+                        <>
+                            {!elEnded ? (
+                                <>
+                                    <div className="">
+                                        <button type="submit" className="text-white w-full mt-5 p-2 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out">
+                                            Start Election {elEnded ? "Again" : null}
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
+                                <h3 className="text-dark">Re-deploy the contract to start election again.</h3>
+                            )}
+                            {elEnded ? (
+                                <center>
+                                    <p className="text-dark">The election ended.</p>
+                                </center>
+                                
+                            ) : null}
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex w-full justify-center items-center">
+                                <button
+                                    type="button"
+                                    onClick={endElection}
+                                    className="text-white w-full mt-5 p-2 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out"
+                                >
+                                    End
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </div>
-            )}
+            </form>
         </div>
-    );
-}
+);
+};
