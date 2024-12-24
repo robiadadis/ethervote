@@ -128,7 +128,7 @@ export default function Homes() {
                 </div>
             </div>
             <div className="border-t"></div>
-            <p className="text-dark font-medium text-center mb-3 mt-20">Admin & Election Details</p>
+            <p className="text-dark font-medium text-center mb-3 mt-20">[ Admin & Election Details ]</p>
             <div className="flex justify-center">
                 <div className="w-full md:w-1/2 flex flex-row justify-center items-center border">
                     <p className="text-dark text-sm p-3 text-center">

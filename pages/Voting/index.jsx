@@ -3,7 +3,13 @@ import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 import NotInit from "../../components/NotInit";
 const Election_ABI = require("../../utils/Election.json");
-const PolyVote_ABI = require("../../utils/PolyVote.json");
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// Menambahkan ikon ke library FontAwesome
+library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
 export default function Voting() {
 
@@ -139,50 +145,84 @@ export default function Voting() {
         }
     };
 
-    // const safeMint = async (address) => {
-    //     const mintTx = await polyInstance.safeMint(address, "https://ipfs.filebase.io/ipfs/QmRGFGbufiNCoS1vv2x26jxzdjMkEZqkLBo8MSRYqQokfC");
-
-    //     await mintTx.wait();
-    //     window.location.reload();
-    // };
-
     return (
         <>
             {isDisconnected ?
                 (<>
-                    <div className="min-h-screen">
-                        <div className="loader">
-                            <p className="text-white font-semibold text-lg mt-1"> Hubungkan dengan dompet anda </p>
-                        </div>
+                    {/* Wallet Disconnect */}
+                    <div className="-mt-20 h-screen flex flex-col justify-center items-center">
+                        <FontAwesomeIcon icon="fa-solid fa-lock" className="animate-bounce" />
+                        <p className="text-dark font-medium text-lg mt-1 ml-2">[ Please connect your wallet ]</p>
                     </div>
                 </>) :
                 (<>
-                    <div className="min-h-screen">
-                        <div className="gradient-bg-transactions">
+                    <div className="">
+                        <div className="container">
                             {!elStarted && !elEnded ? (
                                 <NotInit />
                             ) : elStarted && !elEnded ? (
                                 <>
-                                    <div className="flex w-full justify-center items-center">
-                                        <div className='flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2'>
-                                            <div className='flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10'>
-                                                <h2 className='className="text-3xl sm:text-5xl text-white text-gradient py-1'>Daftar Kandidat</h2>
-                                                <small className='text-white'>Jumlah Kandidat: {candidateCount}</small>
+                                    {currentVoter.isRegistered ? (
+                                        currentVoter.isVerified ? (
+                                            currentVoter.hasVoted ? (
+                                                <div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
+                                                    <div>
+                                                        <p className='text-dark font-bold'>You've casted your vote.</p>
+                                                        <p />
+                                                        <button className='text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'>
+                                                            <a
+                                                                href="/Results"
+                                                                style={{
+                                                                    color: "white",
+                                                                    textDecoration: "none",
+                                                                }}
+                                                            >
+                                                                See Results
+                                                            </a>
+                                                        </button>
+                                                        <p />
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="w-full flex flex-row justify-center items-center bg-lightgray p-5 my-10 shadow-sm">
+                                                    <FontAwesomeIcon icon="fa-solid fa-check-to-slot" className="text-lime-500 mr-2"/>
+                                                    <p className='font-medium text-sm text-dark text-center'>Go ahead and cast your vote.</p>
+                                                </div>
+                                            )
+                                        ) : (
+                                            <div className="w-full flex lg:flex-row flex-col justify-center items-center bg-lightgray p-5 my-10 shadow-sm">
+                                                <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" className="text-crimson animate-pulse lg:mr-2"/>
+                                                <p className="font-medium text-sm text-dark text-center">You are currently unable to vote. Admin verification is required to activate your voting privileges. Thank you for your patience.</p>
+                                            </div>
+                                        )
+                                    ) : (
+                                        <>
+                                            <div className="w-full flex sm:flex-row flex-col justify-center items-center bg-lightgray p-5 my-10 shadow-sm">
+                                                <FontAwesomeIcon icon="fa-solid fa-xmark" className="text-crimson mr-2"/>
+                                                <p className="font-medium text-sm text-dark text-center">You're not registered. Please complete your registration to proceed.</p>
+                                            </div>
+                                        </>
+                                    )}
+                                    <div className="flex w-full justify-center items-center border min-h-screen">
+                                        <div className="flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2 border">
+                                            <div className="w-full flex flex-col items-center justify-start border">
+                                                <p className="text-dark font-semibold text-lg">[ Candidate List ]</p>
+                                                <p className="text-dark">Total candidates: {candidateCount}</p>
                                                 {candidateCount < 1 ? (
-                                                    <div className="container attention">
-                                                        <center className='text-white'>Not one to vote for.</center>
+                                                    <div className="">
+                                                        <center className='text-dark'>Not one to vote for.</center>
                                                     </div>
                                                 ) : (
                                                     <>
                                                         {candidates.map(candidate => (
                                                             <div key={candidate.id} className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-                                                                <p className="text-white">{candidate.header}</p>
-                                                                <small className='text-white'>#{candidate.id}</small>
-                                                                <p className="text-white">{candidate.slogan}</p>
+                                                                <p className="text-dark">{candidate.header}</p>
+                                                                <small className='text-dark'>#{candidate.id}</small>
+                                                                <p className="text-dark">{candidate.slogan}</p>
                                                                 <button
                                                                     type='button'
                                                                     onClick={() => confirmVote(candidate.id, candidate.header)}
-                                                                    className="text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer"
+                                                                    className="text-dark w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer"
                                                                     disabled={
                                                                         !currentVoter.isRegistered ||
                                                                         !currentVoter.isVerified ||
@@ -199,60 +239,6 @@ export default function Voting() {
                                             </div>
                                         </div>
                                     </div>
-                                    {currentVoter.isRegistered ? (
-                                        currentVoter.isVerified ? (
-                                            currentVoter.hasVoted ? (
-                                                <div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
-                                                    <div>
-                                                        <p className='text-white font-bold'>Kamu sudah melakukan voting</p>
-                                                        <p />
-                                                        <button className='text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'>
-                                                            <a
-                                                                href="/Results"
-                                                                style={{
-                                                                    color: "white",
-                                                                    textDecoration: "none",
-                                                                }}
-                                                            >
-                                                                Lihat hasil
-                                                            </a>
-                                                        </button>
-                                                        <p />
-                                                        {/* <button
-                                                            className='text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'
-                                                            // onClick={() => safeMint("0xa416eCa243f9DC88248b40538Ab47478f4D575E8")}
-                                                            onClick={() => safeMint(currentAccount)}
-                                                        >
-                                                            MintNFT
-                                                        </button> */}
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
-                                                    <p className='text-white'>Silahkan untuk memilih kandidat</p>
-                                                </div>
-                                            )
-                                        ) : (
-                                            <div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
-                                                <p className='text-white'>Tunggu sampai admin melakukan verifikasi</p>
-                                            </div>
-                                        )
-                                    ) : (
-                                        <>
-                                            <div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
-
-                                                <p className='text-white'>Anda belum terdaftar. Lakukan registrasi terlebih dahulu</p>
-                                                <br />
-                                                <a
-                                                    href="/Registration"
-                                                    style={{ color: "white", textDecoration: "underline" }}
-                                                >
-                                                    Halaman registrasi
-                                                </a>
-
-                                            </div>
-                                        </>
-                                    )}
                                 </>
                             ) : !elStarted && elEnded ? (
                                 <>
@@ -260,13 +246,13 @@ export default function Voting() {
                                         <div className="flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2">
                                             <div className="flex flex-1 justify-start items-start flex-col mf:mr-10">
                                                 <center>
-                                                    <h3 className='text-white'>Pemilihan telah berakhir</h3>
-                                                    <button className='text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'>
+                                                    <h3 className='text-dark'>The Election ended.</h3>
+                                                    <button className='text-dark w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'>
                                                         <a
                                                             href="/Results"
                                                             className='text-white'
                                                         >
-                                                            Lihat hasil
+                                                            See results
                                                         </a>
                                                     </button>
                                                 </center>

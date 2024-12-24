@@ -1,7 +1,7 @@
 const NotInit = () => {
     return (
         <div className="h-screen -mt-20">
-            <div className="loader bg-lightgray">
+            <div className="loader">
                 {loadingIcon()}
                 <p className="mt-5 text-gray font-medium">The election has not started, please wait<span className="animate-pulse">...</span></p>
             </div>

@@ -3,7 +3,15 @@ import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 import NotInit from "../../components/NotInit";
 import { Chart } from "chart.js/auto";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Election_ABI = require("../../utils/Election.json");
+
+// Menambahkan ikon ke library FontAwesome
+library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
+
 
 export default function Voting() {
 
@@ -167,10 +175,10 @@ export default function Voting() {
         <>
             {isDisconnected ?
                 (<>
-                    <div className="min-h-screen">
-                        <div className="loader">
-                            <p className="text-white font-semibold text-lg mt-1"> Please connect your wallet </p>
-                        </div>
+                    {/* Wallet Disconnect */}
+                    <div className="-mt-20 h-screen flex flex-col justify-center items-center">
+                        <FontAwesomeIcon icon="fa-solid fa-lock" className="animate-bounce" />
+                        <p className="text-dark font-medium text-lg mt-1 ml-2">[ Please connect your wallet ]</p>
                     </div>
                 </>) :
                 (<>

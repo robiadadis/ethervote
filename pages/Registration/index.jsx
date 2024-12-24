@@ -4,6 +4,15 @@ import { ethers } from "ethers";
 const Election_ABI = require("../../utils/Election.json");
 import CryptoJS from 'crypto-js';
 import NotInit from "../../components/NotInit";
+import { useForm } from "react-hook-form";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// Menambahkan ikon ke library FontAwesome
+library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
+
 
 // Encrypt data using AES encryption
 function encryptData(data, secretKey) {
@@ -134,6 +143,12 @@ export default function Registration() {
 		}
 	};
 
+	const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm();
+
 	const updateVoterName = (event) => {
 		setvoterName(event.target.value);
 	}
@@ -142,20 +157,25 @@ export default function Registration() {
 		setvoterPhone(event.target.value);
 	}
 
+	const EMsg = (props) => {
+        return <span className="text-xs text-crimson">{props.msg}</span>;
+    };
+
 	return (
 		<>
 			{isDisconnected ?
 				(<>
-					<div className="min-h-screen">
-						<div className="loader">
-                            <p className="text-dark font-semibold text-lg mt-1">Please connect your wallet</p>
-                        </div>
+					{/* Wallet Disconnect */}
+					<div className="-mt-20 h-screen flex flex-col justify-center items-center">
+						<FontAwesomeIcon icon="fa-solid fa-lock" className="animate-bounce" />
+						<p className="text-dark font-medium text-lg mt-1 ml-2">[ Please connect your wallet ]</p>
 					</div>
 				</>) :
 				(<>
 					<div className="">
 						<div className="container lg:-mt-20">
 							{!elStarted && !elEnded ? (
+								// Loader
 								<>
 									<NotInit />
 								</>
@@ -169,59 +189,64 @@ export default function Registration() {
 												<p className="w-full text-xs text-gray mb-5">
 													This registration form is designed to collect user information. Please fill in all the required fields, such as name and phone number.
 												</p>
-												<form className="border border-gray border-opacity-20 shadow-sm p-5 bg-lightgray w-full">
+												<form onSubmit={handleSubmit(registerAsVoter)} className="border border-gray border-opacity-20 shadow-sm p-5 bg-lightgray w-full">
 													<div className="mb-5">
 														<label className={`form-label`}>
 															<span className="text-dark text-base font-medium">
 																Wallet Address
 															</span>
 															<input
-																className={`form-control w-full p-2 text-dark border-none text-sm`}
+																className="form-control w-full p-2 text-dark border-none text-sm"
 																type="text"
 																value={currentAccount}
-															/>{" "}
+																readOnly
+															/>
 														</label>
 													</div>
 													<div className="mb-5">
 														<label className={`form-label`}>
-															<span className="text-dark text-base font-medium">
-																Name
-															</span>
+															<span className="text-dark text-base font-medium">Name</span>
+															{errors.voterName && <EMsg msg=" *required" />}
 															<input
-																className={`form-control w-full p-2 text-dark border-none text-sm`}
+																className="form-control w-full p-2 text-dark border-none text-sm"
 																type="text"
 																placeholder="eg. yourname"
+																{...register("voterName", { 
+																	required: true, 
+																})}
 																value={voterName}
 																onChange={updateVoterName}
-															/>{" "}
+															/>
 														</label>
 													</div>
 													<div className="mb-3">
-														<label className={`form-label text-dark`}>
-															<span className="text-dark text-base font-medium">
-																Phone
-															</span>
+														<label className="form-label text-dark">
+															<span className="text-dark text-base font-medium">Phone</span>
+															{errors.voterPhone && <EMsg msg=" *Phone number must be between 12 and 13 digits" />}
 															<input
-																className={`form-control w-full p-2 text-dark border-none text-sm`}
+																className="form-control w-full p-2 text-dark border-none text-sm"
 																type="number"
 																placeholder="eg. 6289123456789"
+																{...register("voterPhone", {
+																	required: true,
+																	validate: (value) =>
+																	value.toString().length >= 12 && value.toString().length <= 13 || 
+																	"Phone number must be between 12 and 13 digits",
+																})}
 																value={voterPhone}
 																onChange={updateVoterPhone}
 															/>
 														</label>
 													</div>
 													<button
-														type="button"
+														type="submit"
 														className={`text-white w-full mt-5 p-3 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out shadow-sm ${
 															isLoading ? "opacity-70 cursor-not-allowed" : ""
 														}`}
 														disabled={
-															voterPhone.length < 12 || 
-															voterPhone.length > 13 || 
 															currentVoter.isVerified || 
 															isLoading
 														}
-														onClick={registerAsVoter}
 													>
 														{isLoading ? (
 															<div className="flex items-center justify-center">
