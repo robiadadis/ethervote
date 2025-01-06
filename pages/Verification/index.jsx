@@ -6,6 +6,13 @@ const Election_ABI = require("../../utils/Election.json");
 import CryptoJS from 'crypto-js';
 import NotInit from "../../components/NotInit";
 import { BsFillFileLock2Fill } from "react-icons/bs";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// Menambahkan ikon ke library FontAwesome
+library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
 // Encrypt data using AES encryption
 function encryptData(data, secretKey) {
@@ -35,7 +42,7 @@ function decryptData(ciphertext, secretKey) {
 export default function Registration() {
 
     // Contract Address & ABI
-    const contractAddress = "0x946081373B0B9Bf607adeA11339CF3E4D867FDBA";
+    const contractAddress = "0xE8F42d39476B67Ab201D4E1fE76b2178787918f3";
     const contractABI = Election_ABI.abi;
 
     // CA & ABI PolyVote
@@ -290,20 +297,28 @@ export default function Registration() {
                                         </>
                                     ) : !elStarted && elEnded ? (
                                         <>
-                                            <div className="flex w-full justify-center items-center">
-                                                <div className="flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2">
-                                                    <div className="flex flex-1 justify-start items-start flex-col mf:mr-10">
-                                                        <center>
-                                                            <h3 className='text-white'>Pemilihan sudah berakhir.</h3>
-                                                            <button className='text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'>
-                                                                <a
-                                                                    to="/Results"
-                                                                    className='text-white'
-                                                                >
-                                                                    Lihat hasil
-                                                                </a>
-                                                            </button>
-                                                        </center>
+                                            <div className="container h-screen -mt-20 flex justify-center items-center">
+                                                <div className="xl:w-1/2">
+                                                    <div className="shadow-sm">
+                                                        <div className="bg-dark p-5 border">
+                                                            <p className="text-white text-center text-base">[ <span className="text-crimson">The election has ended</span> ]</p>
+                                                        </div>
+                                                        <div className="p-8 border">
+                                                            <p className="text-dark text-sm">The election period has officially ended. All votes have been securely recorded and verified using the blockchain-based e-voting system. To view the final results, please click the button below.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex justify-center mt-10 mb-2">
+                                                        <FontAwesomeIcon icon="fa-solid fa-caret-down" className="animate-bounce"/>
+                                                    </div>
+                                                    <div className="flex justify-center">
+                                                        <button className="text-dark hover:text-gray transition duration-300 ease-in-out text-baseq font-medium bg-lime-400 cursor-pointer py-3 px-5 shadow-sm rounded-sm">
+                                                            <a
+                                                                href="/Results"
+                                                                className="text-center"
+                                                            >
+                                                                Final results
+                                                            </a>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

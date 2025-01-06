@@ -17,7 +17,7 @@ export default function Homes() {
     const [showTypewriter, setShowTypewriter] = useState(false);
     
     // Contract Address & ABI
-    const contractAddress = "0x946081373B0B9Bf607adeA11339CF3E4D867FDBA";
+    const contractAddress = "0xE8F42d39476B67Ab201D4E1fE76b2178787918f3";
     // const contractAddress = "0xF70C3A67FDF9E2ddE0412817b0d938cC01c3767e";
     const contractABI = Election_ABI.abi;
     const { data: signer } = useSigner();
@@ -102,7 +102,7 @@ export default function Homes() {
                         <p className="text-left mt-5 text-gray font-medium">
                                 Discover the exciting world of blockchain voting with Ethervote. Easily cast your votes and participate in secure elections using smart contract technology on ethereum blockchain.
                         </p>
-                        <p className="mt-5 text-sm font-medium">
+                        <p className="mt-5 text-base font-medium">
                             <>
                                 {showTypewriter && (
                                     <Typewriter

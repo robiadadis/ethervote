@@ -10,7 +10,7 @@ export default function AdminHomes() {
     const [elDetails, setelDetails] = useState({});
 
     // Contract Address & ABI
-    const contractAddress = "0x946081373B0B9Bf607adeA11339CF3E4D867FDBA";
+    const contractAddress = "0xE8F42d39476B67Ab201D4E1fE76b2178787918f3";
     const contractABI = Election_ABI.abi;
 
     const { data: signer } = useSigner();
@@ -116,7 +116,14 @@ export default function AdminHomes() {
     return (
         <div className="container h-screen -mt-20 flex justify-center items-center">
             {elEnded ? (
-                <h3 className="text-dark">Re-deploy the contract to start election again.</h3>
+                <div className="shadow-sm">
+                    <div className="bg-dark p-5 border">
+                        <p className="text-white text-center text-base">[ <span className="text-crimson animate-pulse">The election has ended</span> ]</p>
+                    </div>
+                    <div className="p-8 border">
+                        <p className="text-dark text-sm">Re-deploy the contract to start election again.</p>
+                    </div>
+                </div>
             ) : !elStarted ? (
                 <form onSubmit={handleSubmit(registerElection)} className="border border-gray border-opacity-20 shadow-sm p-10 bg-lightgray">
                     <p className="text-left font-semibold text-lg">Admin & Election Setup Form</p>

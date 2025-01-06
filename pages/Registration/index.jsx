@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Menambahkan ikon ke library FontAwesome
 library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
-
 // Encrypt data using AES encryption
 function encryptData(data, secretKey) {
 	const ciphertext = CryptoJS.AES.encrypt(data, secretKey).toString();
@@ -42,7 +41,7 @@ function decryptData(ciphertext, secretKey) {
 export default function Registration() {
 
 	// Contract Address & ABI
-	const contractAddress = "0x946081373B0B9Bf607adeA11339CF3E4D867FDBA";
+	const contractAddress = "0xE8F42d39476B67Ab201D4E1fE76b2178787918f3";
 	const contractABI = Election_ABI.abi;
 
 	const [isLoading, setisLoading] = useState(false);
@@ -287,24 +286,28 @@ export default function Registration() {
 								</>
 								) : !elStarted && elEnded ? (
 									<>
-										<div className="flex w-full justify-center items-center">
-											<div className="flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2">
-												<div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
-													<h2 className='className="text-3xl sm:text-5xl text-white text-gradient py-1'>Pemilihan telah berakhir</h2>
-													<small className='text-white'>Lihat hasil pemilihan</small>
-													<div className="container attention">
-														<button className='text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'>
-															<a
-																href="/Results"
-																style={{
-																	color: "white",
-																	textDecoration: "none",
-																}}
-															>
-																Lihat hasil
-															</a>
-														</button>
+										<div className="container h-screen -mt-20 flex justify-center items-center">
+											<div className="xl:w-1/2">
+												<div className="shadow-sm">
+													<div className="bg-dark p-5 border">
+														<p className="text-white text-center text-base">[ <span className="text-crimson">The election has ended</span> ]</p>
 													</div>
+													<div className="p-8 border">
+														<p className="text-dark text-sm">The election period has officially ended. All votes have been securely recorded and verified using the blockchain-based e-voting system. To view the final results, please click the button below.</p>
+													</div>
+												</div>
+												<div className="flex justify-center mt-10 mb-2">
+													<FontAwesomeIcon icon="fa-solid fa-caret-down" className="animate-bounce"/>
+												</div>
+												<div className="flex justify-center">
+													<button className="text-dark hover:text-gray transition duration-300 ease-in-out text-baseq font-medium bg-lime-400 cursor-pointer py-3 px-5 shadow-sm rounded-sm">
+														<a
+															href="/Results"
+															className="text-center"
+														>
+															Final results
+														</a>
+													</button>
 												</div>
 											</div>
 										</div>
