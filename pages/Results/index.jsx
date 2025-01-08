@@ -15,7 +15,7 @@ library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
 export default function Voting() {
 
-    const contractAddress = "0xE8F42d39476B67Ab201D4E1fE76b2178787918f3";
+    const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
     const contractABI = Election_ABI.abi;
 
     const canvasRef = useRef(null);

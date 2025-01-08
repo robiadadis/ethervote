@@ -10,7 +10,7 @@ export default function AdminHomes() {
     const [elDetails, setelDetails] = useState({});
 
     // Contract Address & ABI
-    const contractAddress = "0xE8F42d39476B67Ab201D4E1fE76b2178787918f3";
+    const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
     const contractABI = Election_ABI.abi;
 
     const { data: signer } = useSigner();
@@ -140,7 +140,7 @@ export default function AdminHomes() {
                                         {errors.adminFName && <EMsg msg="*required" />}
                                         <div className="flex gap-2 mb-2">
                                             <input
-                                                className="w-full p-2 text-dark border-none text-sm"
+                                                className="w-full p-2 text-dark border-none text-sm rounded-sm"
                                                 type="text"
                                                 placeholder="First Name"
                                                 {...register("adminFName", {
@@ -148,7 +148,7 @@ export default function AdminHomes() {
                                                 })}
                                             />
                                             <input
-                                                className="w-full p-2 text-dark border-none text-sm"
+                                                className="w-full p-2 text-dark border-none text-sm rounded-sm"
                                                 type="text"
                                                 placeholder="Last Name"
                                                 {...register("adminLName")}
@@ -162,7 +162,7 @@ export default function AdminHomes() {
                                             <EMsg msg={errors.adminEmail.message} />
                                         )}
                                         <input
-                                            className="w-full p-2 text-dark border-none text-sm shadow-sm mb-2"
+                                            className="w-full p-2 text-dark border-none text-sm shadow-sm mb-2 rounded-sm"
                                             placeholder="eg. you@example.com"
                                             name="adminEmail"
                                             {...register("adminEmail", {
@@ -179,7 +179,7 @@ export default function AdminHomes() {
                                         Job Title or Position{" "}
                                         {errors.adminTitle && <EMsg msg="*required" />}
                                         <input
-                                            className="w-full p-2 text-dark border-none text-sm shadow-sm mb-2"
+                                            className="w-full p-2 text-dark border-none text-sm shadow-sm mb-2 rounded-sm"
                                             type="text"
                                             placeholder="eg. HR Head "
                                             {...register("adminTitle", {
@@ -200,7 +200,7 @@ export default function AdminHomes() {
                                         Election Title{" "}
                                         {errors.electionTitle && <EMsg msg="*required" />}
                                         <input
-                                            className="w-full p-2 text-dark border-none text-sm shadow-sm mb-2"
+                                            className="w-full p-2 text-dark border-none text-sm shadow-sm mb-2 rounded-sm"
                                             type="text"
                                             placeholder="eg. School Election"
                                             {...register("electionTitle", {
@@ -212,7 +212,7 @@ export default function AdminHomes() {
                                         Organization Name{" "}
                                         {errors.organizationTitle && <EMsg msg="*required" />}
                                         <input
-                                            className="w-full p-2 text-dark border-none text-sm shadow-sm mb-2"
+                                            className="w-full p-2 text-dark border-none text-sm shadow-sm mb-2 rounded-sm"
                                             type="text"
                                             placeholder="eg. Lifeline Academy"
                                             {...register("organizationTitle", {
@@ -227,7 +227,7 @@ export default function AdminHomes() {
 
                     <button
                         type="submit"
-                        className="text-white w-full mt-5 p-2 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out"
+                        className="text-white w-full mt-5 p-2 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out rounded-sm"
                     >
                         Start Election
                     </button>
@@ -261,7 +261,7 @@ export default function AdminHomes() {
                         <button
                             type="button"
                             onClick={endElection}
-                            className="text-white w-full mt-5 bg-dark cursor-pointer md:w-1/4 p-3 shadow-md hover:text-crimson transition duration-300 ease-in-out"
+                            className="text-white w-full mt-5 bg-dark cursor-pointer md:w-1/4 p-3 shadow-md hover:text-crimson transition duration-300 ease-in-out rounded-sm"
                         >
                             <span className="">END ELECTION</span>
                         </button>

@@ -42,12 +42,8 @@ function decryptData(ciphertext, secretKey) {
 export default function Registration() {
 
     // Contract Address & ABI
-    const contractAddress = "0xE8F42d39476B67Ab201D4E1fE76b2178787918f3";
+    const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
     const contractABI = Election_ABI.abi;
-
-    // CA & ABI PolyVote
-    // const PolyCA = "0xa2207A9a09209541518CfF604f151Ecd8fBAEba4";
-    // const PolyABI = PolyVote_ABI.abi;
 
     const [isAdmin, setisAdmin] = useState(false);
     const [isLoading, setisLoading] = useState(false);
@@ -171,9 +167,9 @@ export default function Registration() {
 
             await verifyVoter.wait();
 
-            const verifyWhitelist = await polyInstance.addWhiteList(address)
+            // const verifyWhitelist = await polyInstance.addWhiteList(address)
 
-            await verifyWhitelist.wait();
+            // await verifyWhitelist.wait();
 
             window.location.reload();
 
@@ -184,57 +180,66 @@ export default function Registration() {
 
     const VoterTable = ({ voters, verifyUser, verified }) => {
         return (
-            <div className='sm:flex flex-1 justify-start items-center flex-col mf:mr-10 sm:flex-col'>
-                <table className={`table text-center border-separate border-spacing-2 border border-slate-500 ${companyCommonStyles}`}>
-                    <thead>
-                        <tr>
-                            <th>Detail</th>
-                            {!verified && <th>Aksi</th>}
-                        </tr>
-                    </thead>
+            <div className="w-full">
+                <table className="w-full text-center">
                     <tbody>
                         {voters.map((voter) => (
-                            <tr key={voter.address}>
-                                <tr>
-							<th className='border border-slate-600'>Account Address</th>
-							<td className='border border-slate-600 '>
-								<div className="overflow-x-auto max-w-[200px] md:max-w-[none]">
-									{voter.address}
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<th className='border border-slate-600'>Nama</th>
-							<td className='border border-slate-600'>{voter.name}</td>
-						</tr>
-						<tr>
-							<th className='border border-slate-600'>No. HP</th>
-							<td className='border border-slate-600'>{voter.phone}</td>
-						</tr>
-						<tr>
-							<th className='border border-slate-600'>Voted</th>
-							<td className='border border-slate-600'>{voter.hasVoted ? "Iya" : "Tidak"}</td>
-						</tr>
-						<tr>
-							<th className='border border-slate-600'>Verifikasi</th>
-							<td className='border border-slate-600'>{voter.isVerified ? "Iya" : "Tidak"}</td>
-						</tr>
-                                {!verified && !voter.isVerified && (
-                                    <td>
-                                        <button
-                                            type='button'
-                                            className="text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-half cursor-pointer"
-                                            onClick={() => verifyUser(true, voter.address)}
-                                        >
-                                            Approve
-                                        </button>
+                            <div key={voter.address} className="mb-10">
+                                <tr className="bg-lightgray">
+                                    <th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Wallet Address</th>
+                                    <td className="border border-gray border-opacity-20 text-dark p-2">
+                                        <div className="flex justify-center">
+                                            <div className="overflow-x-auto max-w-[250px] md:w-96 md:max-w-[none] w-full">
+                                                <span className="text-dark text-sm">
+                                                    {voter.address}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </td>
+                                </tr>
+                                <tr className="bg-white">
+                                    <th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Name</th>
+                                    <td className="border border-gray border-opacity-20 text-dark text-sm p-2">{voter.name}</td>
+                                </tr>
+                                <tr className="bg-lightgray">
+                                    <th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Phone</th>
+                                    <td className="border border-gray border-opacity-20 text-dark text-sm p-2">{voter.phone}</td>
+                                </tr>
+                                <tr className="bg-white">
+                                    <th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Voted</th>
+                                    <td
+                                        className={`border border-gray border-opacity-20 text-sm font-medium p-2 ${
+                                            voter.hasVoted ? "text-lime-500" : "text-crimson"
+                                        }`}
+                                    >
+                                        {voter.hasVoted ? "True" : "False"}
+                                    </td>
+                                </tr>
+                                <tr className="bg-lightgray">
+                                    <th className="border border-gray border-opacity-20 text-dark text-base font-medium p-2">Verification</th>
+                                    <td
+                                        className={`border border-gray border-opacity-20 text-sm font-medium p-2 ${
+                                            voter.isVerified ? "text-lime-500" : "text-crimson"
+                                        }`}
+                                    >
+                                        {voter.isVerified ? "True" : "False"}
+                                    </td>
+                                </tr>
+                                {!verified && !voter.isVerified && (                          
+                                    <button
+                                        type="button"
+                                        className="text-white p-3 w-full bg-dark cursor-pointer rounded-sm shadow-sm hover:text-lime-500 transition duration-300 ease-in-out"
+                                        onClick={() => verifyUser(true, voter.address)}
+                                    >
+                                        Approve
+                                    </button>      
                                 )}
-                            </tr>
+                            </div>
                         ))}
                     </tbody>
                 </table>
             </div>
+
         );
     };
 
@@ -261,36 +266,66 @@ export default function Registration() {
                         </>
                     ) : (
                         <>
-                            <div className="min-h-screen">
-                                <div className="gradient-bg-services loader">
+                            <div className="">
+                                <div className="container">
                                     {!elStarted && !elEnded ? (
                                         <NotInit />
                                     ) : elStarted && !elEnded ? (
                                         <>
-                                            <div className="min-h-screen flex flex-col justify-center items-center">
-                                                <div className='flex flex-col w-full items-center justify-start'>
-                                                    <div className='flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10'>
-                                                        <h3 className='text-white text-3xl font-bold mb-4'>Verifikasi Pemilih</h3>
-                                                        <small className='text-white'>Total pemilih: {voters.length}</small>
-                                                        <div className='flex flex-col w-full items-center justify-start mt-8'>
-                                                            {voters.length < 0 ? (
-                                                                <p className="text-white">Belum ada yang terdaftar</p>
-                                                            ) : (
-                                                                <>
-                                                                    <p className="text-white text-2xl font-bold mb-4">Daftar pemilih yang sudah mendaftar</p>
-                                                                    <div className="flex flex-col w-full justify-center items-center">
-                                                                        <div className="w-full p-2 flex justify-center">
-                                                                            <div className="overflow-x-auto mx-auto">
-                                                                                <h2 className="text-white text-center text-lg font-bold mb-4">Pemilih yang belum verifikasi</h2>
-                                                                                <VoterTable voters={voters.filter((voter) => !voter.isVerified)} verifyUser={verifyUser} verified={false} />
-                                                                                <h2 className="text-white text-center text-lg font-bold mb-4 pt-4 mt-4">Pemilih yang sudah verifikasi</h2>
-                                                                                <VoterTable voters={voters.filter((voter) => voter.isVerified)} verified={true} />
-                                                                            </div>
+                                            <div className="w-full min-h-screen">
+                                                <div className="flex flex-col justify-center items-center w-full">
+                                                    <div className="flex flex-col justify-center items-center my-10">
+                                                        <p className="text-dark font-semibold text-xl">[ Verification ]</p>
+                                                        <p className="text-gray font-medium">Total Voters: {voters.length}</p>
+                                                    </div>
+                                                    <div className="flex flex-col w-full items-center">
+                                                        {voters.length === 0 ? (
+                                                            <div className="flex justify-center items-center w-full bg-dark p-5">
+                                                                <FontAwesomeIcon icon="fa-solid fa-xmark" className="mr-1 text-crimson"/>
+                                                                <p className="text-white text-sm text-center">No voters have registered yet.</p>
+                                                            </div>
+                                                        ) : (
+                                                            <>
+                                                                <p className="text-dark text-lg font-semibold">List of Registered Voters</p>
+                                                                <div className="w-full border-t border-gray border-opacity-50 mt-5 mb-10"></div>
+                                                                <div className="flex flex-col w-full justify-center items-center">
+                                                                    <div className="w-full flex justify-center">
+                                                                        <div className="overflow-x-auto mx-auto">
+                                                                            {voters.filter((voter) => !voter.isVerified).length > 0 && (
+                                                                                <>
+                                                                                    <div className="flex flex-row justify-center items-center mb-5">
+                                                                                        <FontAwesomeIcon icon="fa-solid fa-xmark" className="mr-1 text-crimson"/>
+                                                                                        <p className="text-gray text-center text-lg font-medium">Unverified Voters</p>
+                                                                                    </div>
+                                                                                    <VoterTable 
+                                                                                        voters={voters.filter((voter) => !voter.isVerified)} 
+                                                                                        verifyUser={verifyUser} 
+                                                                                        verified={false} 
+                                                                                    />
+                                                                                </>
+                                                                            )}
+                                                                            {voters.filter((voter) => voter.isVerified).length > 0 && (
+                                                                                <>
+                                                                                    {voters.filter((voter) => !voter.isVerified).length > 0 && (
+                                                                                        <div className="w-full border-t border-gray border-opacity-50 mt-5 mb-10"></div>
+                                                                                    )}
+                                                                                    <div className="flex flex-row justify-center items-center mb-5">
+                                                                                        <FontAwesomeIcon icon="fa-solid fa-check" className="mr-1 text-lime-500"/>
+                                                                                        <p className="text-gray text-center text-lg font-medium">Verified Voters</p>
+                                                                                    </div>
+                                                                                    <div className="mb-5">
+                                                                                        <VoterTable 
+                                                                                            voters={voters.filter((voter) => voter.isVerified)} 
+                                                                                            verified={true}
+                                                                                        />
+                                                                                    </div>
+                                                                                </>
+                                                                            )}
                                                                         </div>
                                                                     </div>
-                                                                </>
-                                                            )}
-                                                        </div>
+                                                                </div>
+                                                            </>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -301,7 +336,7 @@ export default function Registration() {
                                                 <div className="xl:w-1/2">
                                                     <div className="shadow-sm">
                                                         <div className="bg-dark p-5 border">
-                                                            <p className="text-white text-center text-base">[ <span className="text-crimson">The election has ended</span> ]</p>
+                                                            <p className="text-dark text-center text-base">[ <span className="text-crimson">The election has ended</span> ]</p>
                                                         </div>
                                                         <div className="p-8 border">
                                                             <p className="text-dark text-sm">The election period has officially ended. All votes have been securely recorded and verified using the blockchain-based e-voting system. To view the final results, please click the button below.</p>
@@ -325,7 +360,6 @@ export default function Registration() {
                                         </>
                                     ) : null}
                                 </div>
-
                             </div>
                         </>
                     )}
@@ -333,6 +367,3 @@ export default function Registration() {
         </>
     );
 }
-
-const companyCommonStyles =
-    "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";

@@ -41,7 +41,7 @@ function decryptData(ciphertext, secretKey) {
 export default function Registration() {
 
 	// Contract Address & ABI
-	const contractAddress = "0xE8F42d39476B67Ab201D4E1fE76b2178787918f3";
+	const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
 	const contractABI = Election_ABI.abi;
 
 	const [isLoading, setisLoading] = useState(false);
@@ -195,7 +195,7 @@ export default function Registration() {
 																Wallet Address
 															</span>
 															<input
-																className="form-control w-full p-2 text-dark border-none text-sm"
+																className="form-control w-full p-2 text-dark border-none text-sm rounded-sm"
 																type="text"
 																value={currentAccount}
 																readOnly
@@ -207,7 +207,7 @@ export default function Registration() {
 															<span className="text-dark text-base font-medium">Name</span>
 															{errors.voterName && <EMsg msg=" *required" />}
 															<input
-																className="form-control w-full p-2 text-dark border-none text-sm"
+																className="form-control w-full p-2 text-dark border-none text-sm rounded-sm"
 																type="text"
 																placeholder="eg. yourname"
 																{...register("voterName", { 
@@ -223,7 +223,7 @@ export default function Registration() {
 															<span className="text-dark text-base font-medium">Phone</span>
 															{errors.voterPhone && <EMsg msg=" *Phone number must be between 12 and 13 digits" />}
 															<input
-																className="form-control w-full p-2 text-dark border-none text-sm"
+																className="form-control w-full p-2 text-dark border-none text-sm rounded-sm"
 																type="number"
 																placeholder="eg. 6289123456789"
 																{...register("voterPhone", {
@@ -239,7 +239,7 @@ export default function Registration() {
 													</div>
 													<button
 														type="submit"
-														className={`text-white w-full mt-5 p-3 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out shadow-sm ${
+														className={`rounded-sm text-white w-full mt-5 p-3 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out shadow-sm ${
 															isLoading ? "opacity-70 cursor-not-allowed" : ""
 														}`}
 														disabled={
