@@ -184,7 +184,7 @@ export default function Registration() {
 										<div className="flex mf:flex-row flex-col justify-between">
 											{/* Registration Form */}
 											<div className="flex flex-col flex-1 items-start w-full p-5">
-												<p className="text-dark font-semibold text-lg mb-5">[ Registration Form ]</p>
+												<p className="text-dark font-semibold text-xl mb-5">[ Registration Form ]</p>
 												<p className="w-full text-xs text-gray mb-5">
 													This registration form is designed to collect user information. Please fill in all the required fields, such as name and phone number.
 												</p>
@@ -324,7 +324,7 @@ export function loadCurrentVoter(voter, isRegistered) {
 	return (
 		<>
 			<div className="flex flex-col items-start w-full">
-				<p className="text-dark font-semibold text-lg mb-5">
+				<p className="text-dark font-semibold text-xl mb-5">
 					[ Your Registered Info ]
 				</p>
 				<p className="w-full text-xs text-gray mb-5">

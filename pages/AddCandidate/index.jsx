@@ -4,6 +4,13 @@ import { ethers } from "ethers";
 import NotInit from "../../components/NotInit";
 const Election_ABI = require("../../utils/Election.json");
 import { BsFillFileLock2Fill } from "react-icons/bs";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// Menambahkan ikon ke library FontAwesome
+library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
 export default function AddCandidate() {
 
@@ -153,78 +160,91 @@ export default function AddCandidate() {
                         </>
                     ) : (
                         <>
-                            <div className="min-h-screen">
-                                <div className="gradient-bg-services loader">
+                            <div className="">
+                                <div className="container">
                                     {!elStarted && !elEnded ? (
                                         <NotInit />
                                     ) : elStarted && !elEnded ? (
                                         <>
-                                            <div className='flex w-full justify-center items-center'>
-                                                <div className='flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4'>
-                                                    <div className='flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10'>
-                                                        <div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
-                                                            <h2 className='text-xl sm:text-3xl text-white text-gradient py-1'>Tambah Kandidat Baru</h2>
-                                                            <small className='text-white'>Jumlah Kandidat: {candidateCount}</small>
-                                                            <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-                                                                <form className="form">
-                                                                    <div className="mb-3">
-                                                                        <label className={`label-ac text-white`}>
-                                                                            Nama Kandidat
-                                                                            <input
-                                                                                className={`input-ac my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism`}
-                                                                                type="text"
-                                                                                placeholder="eg. Dadang"
-                                                                                value={header}
-                                                                                onChange={updateHeader}
-                                                                            />
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="mb-3">
-                                                                        <label className={`label-ac text-white`}>
-                                                                            Slogan
-                                                                            <input
-                                                                                className={`input-ac my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism`}
-                                                                                type="text"
-                                                                                placeholder="eg. It is what it is"
-                                                                                value={slogan}
-                                                                                onChange={updateSlogan}
-                                                                            />
-                                                                        </label>
-                                                                    </div>
-                                                                    <button
-                                                                        type='button'
-                                                                        className="text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer"
-                                                                        disabled={
-                                                                            header.length < 3 || header.length > 21
-                                                                        }
-                                                                        onClick={addCandidate}
-                                                                    >
-                                                                        Tambah
-                                                                    </button>
-                                                                </form>
+                                            <div className="lg:-mt-20 h-screen flex w-full justify-center items-center">
+                                                <div className="flex mf:flex-row flex-col">
+                                                    <div className="flex flex-col items-start w-full flex-1 p-5">
+                                                        <p className="text-dark font-semibold text-xl mb-5">[ Add a new candidate ]</p>
+                                                        <p className="w-full text-xs text-gray mb-5">
+                                                        This form allows you to add a candidate to the system. Please provide accurate information in the required fields to proceed.
+                                                        </p>
+                                                        <form className="form border border-gray border-opacity-20 shadow-sm p-5 bg-lightgray w-full">
+                                                            <div className="mb-5">
+                                                                <label className={`label-ac text-dark text-base font-medium`}>
+                                                                    Header
+                                                                    <input
+                                                                        className={`input-ac w-full p-2 text-dark border-none text-sm rounded-sm`}
+                                                                        type="text"
+                                                                        placeholder="eg. Dadang"
+                                                                        value={header}
+                                                                        onChange={updateHeader}
+                                                                    />
+                                                                </label>
                                                             </div>
-                                                        </div>
+                                                            <div className="mb-5">
+                                                                <label className={`label-ac text-dark text-base font-medium`}>
+                                                                    Slogan
+                                                                    <input
+                                                                        className={`input-ac w-full p-2 text-dark border-none text-sm rounded-sm`}
+                                                                        type="text"
+                                                                        placeholder="eg. It is what it is"
+                                                                        value={slogan}
+                                                                        onChange={updateSlogan}
+                                                                    />
+                                                                </label>
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                className="rounded-sm text-white w-full mt-5 p-3 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out shadow-sm"
+                                                                disabled={
+                                                                    header.length < 3 || header.length > 21
+                                                                }
+                                                                onClick={addCandidate}
+                                                            >
+                                                                Add
+                                                            </button>
+                                                        </form>
                                                     </div>
-                                                    {loadAdded(candidates)}
+                                                    <div className="flex flex-col flex-1 p-5">
+                                                        <p className="text-dark font-semibold text-xl mb-5">[ Candidates List ]</p>
+                                                        <p className="w-full text-xs text-gray mb-5">The candidate list shows all added candidates. The app is in beta and lacks a delete feature, ensure all data is accurate.</p>        
+                                                        {candidateCount > 0 && (
+                                                            <p className="text-gray font-medium mb-5">Total candidates: {candidateCount}</p>
+                                                        )}
+                                                        {loadAdded(candidates)}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </>
                                     ) : !elStarted && elEnded ? (
                                         <>
-                                            <div className="flex w-full justify-center items-center">
-                                                <div className="flex mf:flex-row flex-col items-start justify-between md:p-10 py-6 px-2">
-                                                    <div className="flex flex-1 justify-start items-start flex-col mf:mr-10">
-                                                        <center>
-                                                            <h3 className='text-white'>Pemilihan sudah berakhir.</h3>
-                                                            <button className='text-white w-full mt-2 border-[1px] p-2 border-[#fffff0] hover:bg-[#ff0000] rounded-full cursor-pointer'>
-                                                                <a
-                                                                    to="/Results"
-                                                                    className='text-white'
-                                                                >
-                                                                    Lihat hasil
-                                                                </a>
-                                                            </button>
-                                                        </center>
+                                            <div className="container h-screen -mt-20 flex justify-center items-center">
+                                                <div className="xl:w-1/2">
+                                                    <div className="shadow-sm">
+                                                        <div className="bg-dark p-5 border">
+                                                            <p className="text-white text-center text-base">[ <span className="text-crimson">The election has ended</span> ]</p>
+                                                        </div>
+                                                        <div className="p-8 border">
+                                                            <p className="text-dark text-sm">The election period has officially ended. All votes have been securely recorded and verified using the blockchain-based e-voting system. To view the final results, please click the button below.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex justify-center mt-10 mb-2">
+                                                        <FontAwesomeIcon icon="fa-solid fa-caret-down" className="animate-bounce"/>
+                                                    </div>
+                                                    <div className="flex justify-center">
+                                                        <button className="text-dark hover:text-gray transition duration-300 ease-in-out text-baseq font-medium bg-lime-400 cursor-pointer py-3 px-5 shadow-sm rounded-sm">
+                                                            <a
+                                                                href="/Results"
+                                                                className="text-center"
+                                                            >
+                                                                Final results
+                                                            </a>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -241,35 +261,35 @@ export default function AddCandidate() {
 }
 
 export function loadAdded(candidates) {
-    const renderAdded = (candidate) => {
-        return (
-            <>
-                <div className="container-list success">
-                    <div>
-                        {candidate.id}. <strong>{candidate.header}</strong>:{" "}
-                        {candidate.slogan}
-                    </div>
-                </div>
-            </>
-        );
-    };
     return (
-        <div className='flex w-full justify-center items-center'>
-            <div className='flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4'>
-                <div className='flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10'>
-                    <div className="flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10">
-                        <h4 className='text-xl sm:text-3xl text-white text-gradient py-1'>Daftar kandidat yang sudah ditambahkan</h4>
-                        {candidates.length < 1 ? (
-                            <h6 className='text-xl text-white py-1'>No candidates added.</h6>
-                        ) : (
-                            <div className='text-white'>
-                                {candidates.map(renderAdded)}
-                            </div>
-                        )}
-
-                    </div>
+        <div className="flex flex-col w-full">
+            {candidates.length < 1 ? (
+                <div className="flex flex-row justify-center items-center mb-5">
+                    <FontAwesomeIcon icon="fa-solid fa-xmark" className="mr-1 text-crimson" />
+                    <p className="text-base text-gray">No candidates added.</p>
                 </div>
-            </div>
+            ) : (
+                <div className="container-list">
+                    <table className="w-full border-collapse border border-gray border-opacity-50 text-left">
+                        <thead className="bg-lightgray">
+                            <tr>
+                                <th className="border border-gray border-opacity-50 px-5 py-2 text-sm font-semibold">#</th>
+                                <th className="border border-gray border-opacity-50 px-5 py-2 text-sm font-semibold">Header</th>
+                                <th className="border border-gray border-opacity-50 px-5 py-2 text-sm font-semibold">Slogan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {candidates.map((candidate) => (
+                                <tr key={candidate.id}>
+                                    <td className="border border-gray border-opacity-50 px-5 py-2 text-sm">{candidate.id}</td>
+                                    <td className="border border-gray border-opacity-50 px-5 py-2 text-sm font-medium">{candidate.header}</td>
+                                    <td className="border border-gray border-opacity-50 px-5 py-2 text-sm">{candidate.slogan}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 }
