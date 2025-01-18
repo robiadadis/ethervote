@@ -2,22 +2,24 @@ import { useState, useEffect, useRef } from "react";
 import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 import NotInit from "../../components/NotInit";
+const Election_ABI = require("../../utils/Election.json");
+
+// Chart Result
 import { Chart } from "chart.js/auto";
+
+// FontAwesome Library
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const Election_ABI = require("../../utils/Election.json");
-
-// Menambahkan ikon ke library FontAwesome
 library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
-
 export default function Voting() {
-
-    const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
+    // Contract Address & ABI
+    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
     const contractABI = Election_ABI.abi;
 
+    // Chart Result
     const canvasRef = useRef(null);
     const chartRef = useRef(null);
 
@@ -83,14 +85,28 @@ export default function Voting() {
                 ]
             };
             const options = {
+                responsive: true, // Responsive
+                maintainAspectRatio: false, // Height Flexible
                 scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                beginAtZero: true,
-                            }
+                    y: {
+                        beginAtZero: true, // Start Y axis from 0
+                        ticks: {
+                            stepSize: 1 // Y Axis
                         }
-                    ]
+                    },
+                    x: {
+                        ticks: {
+                            autoSkip: true,
+                            maxRotation: 45,
+                            minRotation: 0,
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: "top"
+                    }
                 }
             };
             chartRef.current = new Chart(ctx, {
@@ -141,7 +157,7 @@ export default function Voting() {
             setCandidateCount(totalCandidateCount);
 
             const loadedCandidates = [];
-            let maxVoteRecived = 0;
+            let maxVoteReceived = 0;
             let winnerCandidate = null;
 
             for (let i = 1; i <= totalCandidateCount; i++) {
@@ -157,8 +173,8 @@ export default function Voting() {
 
                 loadedCandidates.push(candidateData);
 
-                if (candidateData.voteCount > maxVoteRecived) {
-                    maxVoteRecived = candidateData.voteCount;
+                if (candidateData.voteCount > maxVoteReceived) {
+                    maxVoteReceived = candidateData.voteCount;
                     winnerCandidate = candidateData;
                 }
             }
@@ -177,76 +193,69 @@ export default function Voting() {
                 (<>
                     {/* Wallet Disconnect */}
                     <div className="-mt-20 h-screen flex flex-col justify-center items-center">
-                        <FontAwesomeIcon icon="fa-solid fa-lock" className="animate-bounce" />
-                        <p className="text-dark font-medium text-lg mt-1 ml-2">[ Please connect your wallet ]</p>
+                        <FontAwesomeIcon icon="fa-solid fa-link" className="animate-bounce"/>
+                        <p className="text-dark font-medium text-lg mt-2">[ <span className="text-gray">Please connect your wallet</span> ]</p>
                     </div>
                 </>) :
                 (<>
-                    <div className="min-h-screen">
-                        <div className="gradient-bg-transactions">
-                            {isLoading ? (
-                                <div className="loader">
-                                    <center className='text-white'>Loading...</center>
+                    {!elStarted && !elEnded ? (
+                        <NotInit />
+                    ) : elStarted && !elEnded ? (
+                        <div className="container h-screen">
+                            {candidates.length < 1 ? (
+                                <div className="-mt-20 h-screen flex justify-center items-center">
+                                    <div className="flex items-center justify-center bg-dark py-5 px-10 rounded-sm shadow-sm">
+                                        <FontAwesomeIcon icon="fa-solid fa-xmark" className="text-crimson mr-1"/>
+                                        <p className="text-white">No candidates.</p>
+                                    </div>
                                 </div>
                             ) : (
                                 <>
-                                    {!elStarted && !elEnded ? (
-                                        <NotInit />
-                                    ) : elStarted && !elEnded ? (
-                                        <div className="item-center">
-                                            {candidates.length < 1 ? (
-                                                <div className="loader">
-                                                    <center className='text-white'>No candidates.</center>
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <div className="loader">
-                                                        <div className='flex w-full justify-center items-center'>
-                                                            <h3 className='text-white'>Temporary Results | Total candidates: {candidates.length}</h3>
-                                                        </div>
-                                                        <div className="flex justify-center items-center w-3/4 mx-auto ">
-                                                            <div style={{ maxWidth: '100%', width: '100%' }}>
-                                                                <canvas ref={canvasRef} id="myChart" height={200}></canvas>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
+                                    <div className="flex flex-col justify-center items-center p-5 mt-5">
+                                        <p className="text-dark font-semibold text-xl mb-5">[ Temporary Results ]</p>
+                                        <p className="w-full text-xs text-gray mb-5 text-center">
+                                        Temporary results provide an overview of the current vote counts for all candidates. These results are updated in real-time to help you stay informed. Please remember, the results are temporary and may change as voting continues.
+                                        </p>
+                                        <p className="text-gray font-medium">Total candidates: {candidates.length}</p>
+                                    </div>
+                                    <div className="flex justify-center items-center px-5" style={{ height: "calc(100% - 280px)" }}>
+                                        <div style={{ width: "100%", height: "100%" }}>
+                                            <canvas ref={canvasRef} id="myChart" style={{ width: "100%", height: "100%" }}></canvas>
                                         </div>
-                                    ) : elEnded ? (
-                                        <div className="item-center">
-                                            {candidates.length < 1 ? (
-                                                <div className="loader">
-                                                    <center className='text-white'>No candidates.</center>
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    {winner && (
-                                                        <div className="container-main">
-                                                            <div className="flex flex-col items-center justify-center p-5 text-center">
-                                                                <div className="text-2xl font-bold text-red-500">Winner!</div>
-                                                                <div className="text-xl font-bold mt-2 text-white">{winner.header}</div>
-                                                                <div className="text-base mt-2 text-white">{winner.slogan}</div>
-                                                                <div className="flex mt-5">
-                                                                    <div className="text-sm font-medium mr-2 text-white">Total Votes:</div>
-                                                                    <div className="text-sm font-medium text-red-500">{winner.voteCount}</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                    <div className="flex justify-center items-center w-3/4 mx-auto ">
-                                                        <div style={{ maxWidth: '100%', width: '100%' }}>
-                                                            <canvas ref={canvasRef} id="myChart" height={200}></canvas>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
-                                    ) : null}
+                                    </div>
                                 </>
                             )}
                         </div>
-                    </div>
+                    ) : elEnded ? (
+                        <div className="container h-screen">
+                            {candidates.length < 1 ? (
+                                <div className="-mt-20 h-screen flex justify-center items-center">
+                                    <div className="flex items-center justify-center bg-dark py-5 px-10 rounded-sm shadow-sm">
+                                        <FontAwesomeIcon icon="fa-solid fa-xmark" className="text-crimson mr-1"/>
+                                        <p className="text-white">No candidates.</p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    {winner && (
+                                        <div className="flex flex-col justify-center items-center px-5 mt-10">
+                                            <div className="text-dark font-semibold text-xl">
+                                                [ <span className="text-crimson">Congratulations to the Winner!</span> ]
+                                            </div>
+                                            <div className="text-lg font-semibold text-dark mt-5">{winner.header}</div>
+                                            <div className="text-sm font-medium text-dark text-center mb-5">"{winner.slogan}"</div>
+                                            <p className="text-gray font-medium">Total votes received: {winner.voteCount}</p>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-center items-center px-5" style={{ height: "calc(100% - 280px)" }}>
+                                        <div style={{ width: "100%", height: "100%" }}>
+                                            <canvas ref={canvasRef} id="myChart" style={{ width: "100%", height: "100%" }}></canvas>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    ) : null}   
                 </>)}
         </>
     );

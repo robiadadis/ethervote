@@ -3,24 +3,25 @@ import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 import NotInit from "../../components/NotInit";
 const Election_ABI = require("../../utils/Election.json");
+
+// FontAwesome Library
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// Menambahkan ikon ke library FontAwesome
 library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
-export default function Voting() {
+// Notification Message
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-    // Contract Address & ABI Election
-    const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
+export default function Voting() {
+    // Contract Address & ABI
+    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
     const contractABI = Election_ABI.abi;
 
-    // CA & ABI PolyVote
-    // const PolyCA = "0xa2207A9a09209541518CfF604f151Ecd8fBAEba4";
-    // const PolyABI = PolyVote_ABI.abi;
-    
+    const [isLoading, setisLoading] = useState(false);
+    const [loadingCandidateId, setLoadingCandidateId] = useState(null);
     const [elStarted, setelStarted] = useState(false);
     const [elEnded, setelEnded] = useState(false);
     const [candidateCount, setcandidateCount] = useState(0);
@@ -129,11 +130,26 @@ export default function Voting() {
     }
 
     const castVote = async (id) => {
-        const castVoteTx = await electionInstance.vote(id);
-        await castVoteTx.wait();
+        try {
+            // Loader
+            setLoadingCandidateId(id);
 
-        // Refresh the page or update the state as needed
-        window.location.reload();
+            // Start Tx
+            const castVoteTx = await electionInstance.vote(id);
+            await castVoteTx.wait();
+    
+            // If Tx Success
+            toast.success("Transaction confirmed!");
+            
+            window.location.reload();
+        } catch (error) {
+			console.error(error);
+            // If Tx Cancelled
+			toast.error("User rejected transaction.");
+		} finally {
+            // Stop Loader
+            setLoadingCandidateId(null);
+        }
     };
 
     const confirmVote = (id, header) => {
@@ -151,8 +167,8 @@ export default function Voting() {
                 (<>
                     {/* Wallet Disconnect */}
                     <div className="-mt-20 h-screen flex flex-col justify-center items-center">
-                        <FontAwesomeIcon icon="fa-solid fa-lock" className="animate-bounce" />
-                        <p className="text-dark font-medium text-lg mt-1 ml-2">[ Please connect your wallet ]</p>
+                        <FontAwesomeIcon icon="fa-solid fa-link" className="animate-bounce"/>
+                        <p className="text-dark font-medium text-lg mt-2">[ <span className="text-gray">Please connect your wallet</span> ]</p>
                     </div>
                 </>) :
                 (<>
@@ -162,7 +178,18 @@ export default function Voting() {
                                 <NotInit />
                             ) : elStarted && !elEnded ? (
                                 <>
-                                    <div className="flex flex-col w-full items-center min-h-screen">
+                                    <ToastContainer
+                                        position="bottom-right"
+                                        autoClose={5000}
+                                        hideProgressBar={false}
+                                        newestOnTop={false}
+                                        closeOnClick
+                                        rtl={false}
+                                        pauseOnFocusLoss
+                                        draggabl
+                                        pauseOnHover
+                                    />
+                                    <div className="flex flex-col w-full items-center min-h-screen px-5">
                                         {currentVoter.isRegistered ? (
                                             currentVoter.isVerified ? (
                                                 currentVoter.hasVoted ? (
@@ -192,7 +219,7 @@ export default function Voting() {
                                                 )
                                             ) : (
                                                 <div className="w-full flex lg:flex-row flex-col justify-center items-center bg-lightgray p-5 my-10 shadow-sm">
-                                                    <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" className="text-crimson animate-pulse lg:mr-2"/>
+                                                    <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" className="text-crimson lg:mr-2"/>
                                                     <p className="font-medium text-sm text-dark text-center">You are currently unable to vote. Admin verification is required to activate your voting privileges. Thank you for your patience.</p>
                                                 </div>
                                             )
@@ -206,38 +233,55 @@ export default function Voting() {
                                         )}
                                         <div className="flex flex-col items-start justify-between pb-5"> 
                                             <div className="w-full flex flex-col items-center justify-start">
-                                                <p className="text-dark font-semibold text-lg">[ Candidate List ]</p>
+                                                <p className="text-dark font-semibold text-xl">[ Candidate List ]</p>
                                                 <p className="text-gray font-medium">Total candidates: {candidateCount}</p>
-                                                <div>
-                                                    <p className="text-gray text-sm mt-5 text-center">Please cast your vote carefully, as once submitted, your choice will be final and cannot be undone. Ensure you review your decision thoroughly before confirming your vote.</p>
-                                                </div>
-                                                
-                                                <div className="w-full border-t border-gray border-opacity-50 mt-10 mb-5"></div>
+                                                <p className="text-gray text-sm text-center pt-5 pb-10">Please cast your vote carefully, as once submitted, your choice will be final and cannot be undone. Ensure you review your decision thoroughly before confirming your vote.</p>
                                                 {candidateCount < 1 ? (
                                                     <div className="flex flex-row justify-center items-center mt-5">
                                                         <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" className="mr-1 text-yellow-400"/>
                                                         <p className="text-base font-medium text-dark">There is no candidate available to vote for yet.</p>
                                                     </div>
                                                 ) : (
-                                                    <div className="flex flex-row flex-wrap justify-center gap-5 p-5">
+                                                    <div className="flex flex-row flex-wrap justify-center gap-5 py-10 border-t border-gray border-opacity-50">
                                                         <>
                                                             {candidates.map(candidate => (
-                                                                <div key={candidate.id} className="p-5 sm:w-96 w-full flex flex-col justify-start items-center border border-dark border-opacity-50 shadow-sm bg-lightgray">
+                                                                <div key={candidate.id} className="p-5 w-96 w-full flex flex-col justify-start items-center border border-dark border-opacity-50 shadow-sm bg-lightgray">
                                                                     <div className="flex flex-row items-center">
                                                                         <p className="text-dark font-medium">#{candidate.id} {candidate.header}</p>
                                                                     </div>
-                                                                    <p className="text-dark overflow-x-auto h-14 my-5 border-y w-full text-center p-1 bg-white border-gray border-opacity-20 text-base">{candidate.slogan}</p>
+                                                                    <p className="text-dark overflow-x-auto h-14 my-5 border-y w-full text-center p-1 bg-white border-gray border-opacity-20 text-base rounded-sm">{candidate.slogan}</p>
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => confirmVote(candidate.id, candidate.header)}
-                                                                        className="text-lime-500 w-full cursor-pointer bg-dark p-3"
+                                                                        className="text-lime-500 w-full cursor-pointer bg-dark p-3 rounded-sm shadow-sm hover:text-lime-600 transition duration-300 ease-in-out"
                                                                         disabled={
                                                                             !currentVoter.isRegistered ||
                                                                             !currentVoter.isVerified ||
-                                                                            currentVoter.hasVoted
+                                                                            currentVoter.hasVoted ||
+                                                                            isLoading
                                                                         }
                                                                     >
-                                                                        <span className="">Vote</span>
+                                                                        {loadingCandidateId === candidate.id ? (
+                                                                            <div className="flex items-center justify-center">
+                                                                                <svg
+                                                                                    className="animate-spin -mt-1 h-7 w-7 text-white inline-block"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    fill="none"
+                                                                                    viewBox="0 0 24 24"
+                                                                                >
+                                                                                    <circle className="opacity-15" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                                                    <path
+                                                                                        className="opacity-50"
+                                                                                        fill="currentColor"
+                                                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                                                                    ></path>
+                                                                                </svg>
+                                                                            </div>
+                                                                        ) : !currentVoter.isRegistered || !currentVoter.isVerified || currentVoter.hasVoted ? (
+                                                                            <FontAwesomeIcon icon="fa-solid fa-ban" className="text-crimson text-lg"/>
+                                                                        ) : (
+                                                                            <span className="font-semibold">Vote</span>
+                                                                        )}
                                                                     </button>
                                                                 </div>
                                                             ))}
@@ -250,14 +294,14 @@ export default function Voting() {
                                 </>
                             ) : !elStarted && elEnded ? (
                                 <>
-                                    <div className="container h-screen -mt-20 flex justify-center items-center">
-                                        <div className="xl:w-1/2">
-                                            <div className="shadow-sm">
+                                    <div className="container -mt-20 w-full p-5">
+                                        <div className="h-screen flex justify-center flex-col items-center">
+                                            <div className="lg:w-1/2 shadow-sm">
                                                 <div className="bg-dark p-5 border">
-                                                    <p className="text-white text-center text-base">[ <span className="text-crimson">The election has ended</span> ]</p>
+                                                    <p className="text-white text-center text-lg">[ <span className="text-crimson">The election has ended</span> ]</p>
                                                 </div>
-                                                <div className="p-8 border">
-                                                    <p className="text-dark text-sm">The election period has officially ended. All votes have been securely recorded and verified using the blockchain-based e-voting system. To view the final results, please click the button below.</p>
+                                                <div className="p-5 border">
+                                                    <p className="text-dark text-base text-center">The election period has officially ended. All votes have been securely recorded and verified using the blockchain-based e-voting system. To view the final results, please click the button below.</p>
                                                 </div>
                                             </div>
                                             <div className="flex justify-center mt-10 mb-2">
@@ -267,14 +311,14 @@ export default function Voting() {
                                                 <button className="text-dark hover:text-gray transition duration-300 ease-in-out text-baseq font-medium bg-lime-400 cursor-pointer py-3 px-5 shadow-sm rounded-sm">
                                                     <a
                                                         href="/Results"
-                                                        className="text-center"
+                                                        className="text-center font-semibold"
                                                     >
                                                         Final results
                                                     </a>
                                                 </button>
                                             </div>
                                         </div>
-									</div>
+                                    </div>
                                 </>
                             ) : null}
                         </div>

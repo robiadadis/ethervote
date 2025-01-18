@@ -2,20 +2,23 @@ import { useState, useEffect } from "react";
 import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 import NotInit from "../../components/NotInit";
+import { useForm } from "react-hook-form";
 const Election_ABI = require("../../utils/Election.json");
-import { BsFillFileLock2Fill } from "react-icons/bs";
+
+// FontAwesome Library
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// Menambahkan ikon ke library FontAwesome
 library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
-export default function AddCandidate() {
+// Notification Message
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-    // Contract Address & ABI Election
-    const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
+export default function AddCandidate() {
+    // Contract Address & ABI
+    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
     const contractABI = Election_ABI.abi;
 
     const [isAdmin, setisAdmin] = useState(false);
@@ -62,10 +65,7 @@ export default function AddCandidate() {
     }
 
     const checkAdmin = async () => {
-        // Check if signer is available
         if (signer) {
-            // const electionContract = new ethers.Contract(contractAddress, contractABI, signer);
-
             try {
                 const admin = await electionInstance.getAdmin();
                 if (address === admin) {
@@ -99,7 +99,6 @@ export default function AddCandidate() {
             const totalCandidateCount = cekCount.toNumber();
             setcandidateCount(totalCandidateCount);
 
-            // Loading Candidates details
             const loadedCandidates = [];
 
             for (let i = 1; i <= cekCount.toNumber(); i++) {
@@ -128,130 +127,182 @@ export default function AddCandidate() {
 
     const addCandidate = async () => {
         try {
-            const addCandidateTx = await electionInstance.addCandidate(header, slogan);
+            // Loader
+			setisLoading(true);
 
+			// Start Tx
+            const addCandidateTx = await electionInstance.addCandidate(header, slogan);
             await addCandidateTx.wait();
+
+            // If Tx Success
+			toast.success("Transaction confirmed");
+
             window.location.reload();
         } catch (error) {
-            console.error(error);
-        }
+			console.error(error);
+			toast.error("User rejected transaction");
+		} finally {
+			// Stop Loader
+			setisLoading(false);
+		}
     }
+
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm();
+    
+    const EMsg = (props) => {
+        return <span className="text-xs text-crimson">{props.msg}</span>;
+    };
 
     return (
         <>
             {isDisconnected ?
                 (<>
-                    <div className="min-h-screen">
-                        <div className="loader">
-                            <p className="text-white font-semibold text-lg mt-1"> Hubungkan dengan dompet anda </p>
-                        </div>
+                    {/* Wallet Disconnect */}
+                    <div className="-mt-20 h-screen flex flex-col justify-center items-center">
+                        <FontAwesomeIcon icon="fa-solid fa-link" className="animate-bounce"/>
+                        <p className="text-dark font-medium text-lg mt-2">[ <span className="text-gray">Please connect your wallet</span> ]</p>
                     </div>
                 </>) :
                 (<>
                     {!isAdmin ? (
                         <>
-                            <div className="flex justify-center items-center h-screen">
-                                <div className="p-8 text-white text-center">
-                                    <h1 className="text-3xl">Tambah Kandidat</h1>
-                                    <p className="text-xl">Hanya dapat diakses oleh admin.</p>
-                                    <BsFillFileLock2Fill fontSize={64} className="mt-5 mx-auto text-white  text-center" />
-                                </div>
+                            {/* Admin Access Only */}
+                            <div className="-mt-20 h-screen flex flex-col justify-center items-center">
+                                <FontAwesomeIcon icon="fa-solid fa-lock" className="animate-bounce text-crimson" />
+                                <p className="text-dark font-medium text-lg mt-2 w-1/2 text-center">[ <span className="text-gray">Access to the add candidate page is restricted to admin only</span> ]</p>
                             </div>
                         </>
                     ) : (
                         <>
-                            <div className="">
-                                <div className="container">
-                                    {!elStarted && !elEnded ? (
-                                        <NotInit />
-                                    ) : elStarted && !elEnded ? (
-                                        <>
-                                            <div className="lg:-mt-20 h-screen flex w-full justify-center items-center">
-                                                <div className="flex mf:flex-row flex-col">
-                                                    <div className="flex flex-col items-start w-full flex-1 p-5">
-                                                        <p className="text-dark font-semibold text-xl mb-5">[ Add a new candidate ]</p>
-                                                        <p className="w-full text-xs text-gray mb-5">
-                                                        This form allows you to add a candidate to the system. Please provide accurate information in the required fields to proceed.
-                                                        </p>
-                                                        <form className="form border border-gray border-opacity-20 shadow-sm p-5 bg-lightgray w-full">
-                                                            <div className="mb-5">
-                                                                <label className={`label-ac text-dark text-base font-medium`}>
-                                                                    Header
-                                                                    <input
-                                                                        className={`input-ac w-full p-2 text-dark border-none text-sm rounded-sm`}
-                                                                        type="text"
-                                                                        placeholder="eg. Dadang"
-                                                                        value={header}
-                                                                        onChange={updateHeader}
-                                                                    />
-                                                                </label>
-                                                            </div>
-                                                            <div className="mb-5">
-                                                                <label className={`label-ac text-dark text-base font-medium`}>
-                                                                    Slogan
-                                                                    <input
-                                                                        className={`input-ac w-full p-2 text-dark border-none text-sm rounded-sm`}
-                                                                        type="text"
-                                                                        placeholder="eg. It is what it is"
-                                                                        value={slogan}
-                                                                        onChange={updateSlogan}
-                                                                    />
-                                                                </label>
-                                                            </div>
-                                                            <button
-                                                                type="button"
-                                                                className="rounded-sm text-white w-full mt-5 p-3 bg-dark cursor-pointer hover:text-lime-500 transition duration-300 ease-in-out shadow-sm"
-                                                                disabled={
-                                                                    header.length < 3 || header.length > 21
-                                                                }
-                                                                onClick={addCandidate}
-                                                            >
-                                                                Add
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                    <div className="flex flex-col flex-1 p-5">
-                                                        <p className="text-dark font-semibold text-xl mb-5">[ Candidates List ]</p>
-                                                        <p className="w-full text-xs text-gray mb-5">The candidate list shows all added candidates. The app is in beta and lacks a delete feature, ensure all data is accurate.</p>        
-                                                        {candidateCount > 0 && (
-                                                            <p className="text-gray font-medium mb-5">Total candidates: {candidateCount}</p>
-                                                        )}
-                                                        {loadAdded(candidates)}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    ) : !elStarted && elEnded ? (
-                                        <>
-                                            <div className="container h-screen -mt-20 flex justify-center items-center">
-                                                <div className="xl:w-1/2">
-                                                    <div className="shadow-sm">
-                                                        <div className="bg-dark p-5 border">
-                                                            <p className="text-white text-center text-base">[ <span className="text-crimson">The election has ended</span> ]</p>
+                            <div className="container">
+                                {!elStarted && !elEnded ? (
+                                    <NotInit />
+                                ) : elStarted && !elEnded ? (
+                                    <>
+                                        <ToastContainer
+                                            position="bottom-right"
+                                            autoClose={5000}
+                                            hideProgressBar={false}
+                                            newestOnTop={false}
+                                            closeOnClick
+                                            rtl={false}
+                                            pauseOnFocusLoss
+                                            draggabl
+                                            pauseOnHover
+                                        />
+                                        <div className="-mt-20 h-screen flex w-full justify-center items-center">
+                                            <div className="flex mf:flex-row flex-col">
+                                                <div className="flex flex-col items-start w-full flex-1 p-5">
+                                                    <p className="text-dark font-semibold text-xl mb-5">[ Add a new candidate ]</p>
+                                                    <p className="w-full text-xs text-gray mb-5">
+                                                    This form allows you to add a candidate to the system. Please provide accurate information in the required fields to proceed.
+                                                    </p>
+                                                    <form onSubmit={handleSubmit(addCandidate)} className="form border border-gray border-opacity-20 shadow-sm p-5 bg-lightgray w-full">
+                                                        <div className="mb-5">
+                                                            <label className="label-ac text-dark text-base font-medium">
+                                                                Header
+                                                                {errors.header && <EMsg msg=" *required" />}
+                                                                <input
+                                                                    className="input-ac w-full p-2 text-dark border-none text-sm rounded-sm"
+                                                                    type="text"
+                                                                    placeholder="eg. Name"
+                                                                    {...register("header", { 
+                                                                        required: true, 
+                                                                    })}
+                                                                    value={header}
+                                                                    onChange={updateHeader}
+                                                                />
+                                                            </label>
                                                         </div>
-                                                        <div className="p-8 border">
-                                                            <p className="text-dark text-sm">The election period has officially ended. All votes have been securely recorded and verified using the blockchain-based e-voting system. To view the final results, please click the button below.</p>
+                                                        <div className="mb-5">
+                                                            <label className="label-ac text-dark text-base font-medium">
+                                                                Slogan
+                                                                {errors.slogan && <EMsg msg=" *required" />}
+                                                                <input
+                                                                    className="input-ac w-full p-2 text-dark border-none text-sm rounded-sm"
+                                                                    type="text"
+                                                                    placeholder="eg. It is what it is"
+                                                                    {...register("slogan", { 
+                                                                        required: true, 
+                                                                    })}
+                                                                    value={slogan}
+                                                                    onChange={updateSlogan}
+                                                                />
+                                                            </label>
                                                         </div>
-                                                    </div>
-                                                    <div className="flex justify-center mt-10 mb-2">
-                                                        <FontAwesomeIcon icon="fa-solid fa-caret-down" className="animate-bounce"/>
-                                                    </div>
-                                                    <div className="flex justify-center">
-                                                        <button className="text-dark hover:text-gray transition duration-300 ease-in-out text-baseq font-medium bg-lime-400 cursor-pointer py-3 px-5 shadow-sm rounded-sm">
-                                                            <a
-                                                                href="/Results"
-                                                                className="text-center"
-                                                            >
-                                                                Final results
-                                                            </a>
+                                                        <button
+                                                            type="submit"
+                                                            className="rounded-sm text-lime-500 w-full mt-5 p-3 bg-dark cursor-pointer hover:text-lime-600 transition duration-300 ease-in-out shadow-sm"
+                                                            disabled={
+                                                                isLoading
+                                                            }
+                                                        >
+                                                            {isLoading ? (
+                                                                <div className="flex items-center justify-center">
+                                                                    <svg
+                                                                        className="animate-spin -mt-1 h-7 w-7 text-white inline-block"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24"
+                                                                    >
+                                                                        <circle className="opacity-15" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                                        <path
+                                                                            className="opacity-50"
+                                                                            fill="currentColor"
+                                                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                                                        ></path>
+                                                                    </svg>
+                                                                </div>
+                                                            ) : (
+                                                                <p className="font-semibold">Add</p>
+                                                            )}
                                                         </button>
-                                                    </div>
+                                                    </form>
+                                                </div>
+                                                <div className="flex flex-col flex-1 p-5">
+                                                    <p className="text-dark font-semibold text-xl mb-5">[ Candidates List ]</p>
+                                                    <p className="w-full text-xs text-gray mb-5">The candidate list shows all added candidates. The app is in beta and lacks a delete feature, ensure all data is accurate.</p>        
+                                                    {candidateCount > 0 && (
+                                                        <p className="text-gray font-medium mb-5">Total candidates: {candidateCount}</p>
+                                                    )}
+                                                    {loadAdded(candidates)}
                                                 </div>
                                             </div>
-                                        </>
-                                    ) : null}
-                                </div>
-
+                                        </div>
+                                    </>
+                                ) : !elStarted && elEnded ? (
+                                    <>
+                                        <div className="container -mt-20 w-full p-5">
+                                            <div className="h-screen flex justify-center flex-col items-center">
+                                                <div className="lg:w-1/2 shadow-sm">
+                                                    <div className="bg-dark p-5 border">
+                                                        <p className="text-white text-center text-lg">[ <span className="text-crimson">The election has ended</span> ]</p>
+                                                    </div>
+                                                    <div className="p-5 border">
+                                                        <p className="text-dark text-base text-center">The election period has officially ended. All votes have been securely recorded and verified using the blockchain-based e-voting system. To view the final results, please click the button below.</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-center mt-10 mb-2">
+                                                    <FontAwesomeIcon icon="fa-solid fa-caret-down" className="animate-bounce"/>
+                                                </div>
+                                                <div className="flex justify-center">
+                                                    <button className="text-dark hover:text-gray transition duration-300 ease-in-out text-baseq font-medium bg-lime-400 cursor-pointer py-3 px-5 shadow-sm rounded-sm">
+                                                        <a
+                                                            href="/Results"
+                                                            className="text-center font-semibold"
+                                                        >
+                                                            Final results
+                                                        </a>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : null}
                             </div>
                         </>
                     )}
@@ -264,7 +315,7 @@ export function loadAdded(candidates) {
     return (
         <div className="flex flex-col w-full">
             {candidates.length < 1 ? (
-                <div className="flex flex-row justify-center items-center mb-5">
+                <div className="flex flex-row justify-center items-center mt-5">
                     <FontAwesomeIcon icon="fa-solid fa-xmark" className="mr-1 text-crimson" />
                     <p className="text-base text-gray">No candidates added.</p>
                 </div>

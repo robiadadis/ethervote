@@ -3,7 +3,7 @@ import Footer from "../components/navigation/footer";
 
 export default function MainLayout({ children }) {
 	return (
-		<div className="min-h-screen gradient-bg-welcome">
+		<div className="min-h-screen">
             <Navbar />
             {children}
 			<Footer />

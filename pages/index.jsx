@@ -7,9 +7,8 @@ import { ethers } from "ethers";
 const Election_ABI = require("../utils/Election.json");
 
 export default function Home() {
-
 	// Contract Address & ABI
-	const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
+	const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
 	const contractABI = Election_ABI.abi;
 
 	const [isAdmin, setisAdmin] = useState(false);
@@ -47,10 +46,7 @@ export default function Home() {
 	}
 
 	const checkAdmin = async () => {
-		// Check if signer is available
 		if (signer) {
-			// const electionContract = new ethers.Contract(contractAddress, contractABI, signer);
-
 			try {
 				const admin = await electionInstance.getAdmin();
 

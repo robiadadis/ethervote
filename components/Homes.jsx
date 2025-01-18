@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
-import { SiHiveBlockchain } from "react-icons/si";
-import { BsInfoCircle } from "react-icons/bs";
 import { useAccount, useSigner } from "wagmi";
 import { ethers } from "ethers";
 const Election_ABI = require("../utils/Election.json");
-import Typewriter from 'typewriter-effect';
-import Footer from "./navigation/footer";
 
-const companyCommonStyles =
-    "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
+// Typewriter Effect
+import Typewriter from 'typewriter-effect';
 
 export default function Homes() {
     const [elStarted, setelStarted] = useState(false);
@@ -17,9 +13,9 @@ export default function Homes() {
     const [showTypewriter, setShowTypewriter] = useState(false);
     
     // Contract Address & ABI
-    const contractAddress = "0x48996909d258fC788137f5620AE95Deb7b4f26A8";
-    // const contractAddress = "0xF70C3A67FDF9E2ddE0412817b0d938cC01c3767e";
+    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
     const contractABI = Election_ABI.abi;
+
     const { data: signer } = useSigner();
     const [currentAccount, setcurrentAccount] = useState("");
 
@@ -93,12 +89,15 @@ export default function Homes() {
 
     return (
         <div className="container">
+            {/* Main Page */}
             <div className="flex h-screen justify-center items-center -mt-20">
                 <div className="md:w-2/3">
-                    <div className="">
-                        <h1 className="pb-2 border-b text-slate-300">
-                            <span className="text-sm text-white bg-dark border p-1 px-2">Ethervote</span><span className="text-sm text-dark p-1 px-2">| E-voting using Blockchain Technology</span>
-                        </h1>
+                    <div className="px-5">
+                        <div className="flex flex-row items-center">
+                            <p className="text-base text-white font-medium bg-dark border-dark p-2 px-4 rounded-sm">Ethervote</p>
+                            <p className="text-base text-dark ml-2">E-voting using Blockchain Technology.</p>
+                        </div>
+                        <div className="w-full border-t border-gray border-opacity-50 my-2"></div>
                         <p className="text-left mt-5 text-gray font-medium">
                                 Discover the exciting world of blockchain voting with Ethervote. Easily cast your votes and participate in secure elections using smart contract technology on ethereum blockchain.
                         </p>
@@ -120,6 +119,8 @@ export default function Homes() {
                     </div>
                 </div>
             </div>
+
+            {/* Arrow Down Bounce */}
             <div className="relative">
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex justify-center items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-7 w-7 text-dark animate-bounce">
@@ -127,29 +128,40 @@ export default function Homes() {
                     </svg>
                 </div>
             </div>
-            <div className="border-t"></div>
-            <p className="text-dark font-medium text-center mb-3 mt-20">[ Admin & Election Details ]</p>
-            <div className="flex justify-center">
-                <div className="w-full md:w-1/2 flex flex-row justify-center items-center border">
-                    <p className="text-dark text-sm p-3 text-center">
-                        Admin Email : {elDetails?.adminEmail ? elDetails.adminEmail : "-"} | 
-                        Election Title : {elDetails?.electionTitle ? elDetails.electionTitle : "-"}
-                    </p>
-                </div>
+
+            {/* Border */}
+            <div className="px-5">
+                <div className="border-t border-gray border-opacity-50"></div>
             </div>
-            <div className="flex justify-center mb-10">
-                <div className="w-full bg-dark md:w-1/2">
-                    <p className="p-5 text-white text-center">
-                        Election Status : {elStarted ? (
-                            <span className="text-lime-500 animate-pulse">Started</span>
-                        ) : (
-                            <span className="text-crimson animate-pulse">Not Started</span>
-                        )}
-                    </p>
+            
+            {/* Admin & Election Details */}
+            <div className="px-5">
+                <p className="text-dark font-semibold text-lg text-center mb-5 mt-20">[ Admin & Election Details ]</p>
+                <div className="flex justify-center">
+                    <div className="w-full md:w-1/2 flex flex-row justify-center items-center border">
+                        <p className="text-dark text-base font-medium p-5 text-center">
+                            Admin Email : {elDetails?.adminEmail ? elDetails.adminEmail : "-"} | 
+                            Election Title : {elDetails?.electionTitle ? elDetails.electionTitle : "-"}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div className="flex justify-center mb-20">
-                <p className="w-full md:w-1/2 text-center text-xs text-gray">Note: If you encounter any issues or difficulties during the voting process, please contact the responsible admin immediately for further assistance.</p>
+                <div className="flex justify-center mb-10">
+                    <div className="w-full bg-dark md:w-1/2">
+                        <p className="p-5 text-white text-center">
+                        Election Status: <span> </span>
+                            {elEnded ? (
+                            <span className="text-crimson animate-pulse font-semibold">Ended</span>
+                            ) : elStarted ? (
+                            <span className="text-lime-500 animate-pulse font-semibold">Started</span>
+                            ) : (
+                            <span className="text-crimson animate-pulse font-semibold">Not Started</span>
+                            )}
+                        </p>
+                    </div>
+                </div>
+                <div className="flex justify-center mb-20">
+                    <p className="w-full md:w-1/2 text-center text-xs text-gray">Note: If you encounter any issues or difficulties during the voting process, please contact the responsible admin immediately for further assistance.</p>
+                </div>
             </div>
         </div>
     );

@@ -1,16 +1,16 @@
-import "../styles/globals.css";
-import "@rainbow-me/rainbowkit/styles.css";
-
 import merge from 'lodash.merge';
 import { getDefaultWallets, RainbowKitProvider, darkTheme, Theme, } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import MainLayout from "../layout/mainLayout";
+import "../styles/globals.css";
+import "@rainbow-me/rainbowkit/styles.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const { chains, provider } = configureChains(
   [
-    sepolia
+    sepolia //Network
   ],
   [publicProvider()]
 );
@@ -27,21 +27,19 @@ const wagmiClient = createClient({
   provider,
 });
 
+// Rainbowkit Custom
 const myTheme = merge(darkTheme(), {
-  blurs: {
-    modalOverlay: 'small',
-  },
   colors: {
-    accentColor: '#dd2d4a',
+    accentColor: '#181818',
     accentColorForeground: 'white',
     // actionButtonBorder: '...',
     // actionButtonBorderMobile: '...',
     // actionButtonSecondaryBackground: '...',
     closeButton: 'white',
     // closeButtonBackground: '...',
-    connectButtonBackground: '#f9fafb',
+    connectButtonBackground: '#181818',
     // connectButtonBackgroundError: '...',
-    connectButtonInnerBackground: '#fce7f3',
+    connectButtonInnerBackground: '#f1f5f9',
     connectButtonText: '#181818',
     // connectButtonTextError: '...',
     // connectionIndicator: '...',
@@ -52,7 +50,7 @@ const myTheme = merge(darkTheme(), {
     // generalBorderDim: '...',
     // menuItemBackground: '...',
     // modalBackdrop: '...',
-    // modalBackground: '...',
+    modalBackground: '#181818',
     // modalBorder: '...',
     modalText: 'white',
     // modalTextDim: '...',
@@ -67,11 +65,14 @@ const myTheme = merge(darkTheme(), {
     body: 'DM Sans, sans-serif',
   },
   radii: {
-    actionButton: 'none',
-    connectButton: 'none',
-    menuButton: 'none',
-    modal: 'none',
-    modalMobile: 'none',
+    actionButton: '2px',
+    connectButton: '2px',
+    menuButton: '2px',
+    modal: '2px',
+    modalMobile: '2px',
+  },
+  blurs: {
+    modalOverlay: 'small',
   },
   // shadows: {
   //   connectButton: '...',

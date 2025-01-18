@@ -3,7 +3,7 @@ const NotInit = () => {
         <div className="h-screen -mt-20">
             <div className="loader">
                 {loadingIcon()}
-                <p className="mt-5 text-gray font-medium">Please wait<span className="animate-pulse">...</span></p>
+                {/* <p className="mt-5 text-gray font-medium">Please wait<span className="animate-pulse">...</span></p> */}
             </div>
         </div>
     );
@@ -12,7 +12,7 @@ export default NotInit;
 
 const loadingIcon = () => (
     <svg
-        className="animate-spin -mt-1 h-6 w-6 text-dark inline-block"
+        className="animate-spin h-7 w-7 text-dark inline-block"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
