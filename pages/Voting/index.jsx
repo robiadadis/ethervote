@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Voting() {
     // Contract Address & ABI
-    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
+    const contractAddress = "0x84D1fA90c61F95Cd1CB688a513B95E66688b0322";
     const contractABI = Election_ABI.abi;
 
     const [isLoading, setisLoading] = useState(false);
@@ -98,7 +98,7 @@ export default function Voting() {
                 const candidate = await electionInstance.candidateDetails(candidateIndex);
 
                 loadedCandidates.push({
-                    id: candidate.candidateId.toNumber(),
+                    id: candidate.candidateId.toNumber() + 1,
                     header: candidate.header,
                     slogan: candidate.slogan,
                 });
@@ -245,7 +245,7 @@ export default function Voting() {
                                                     <div className="flex flex-row flex-wrap justify-center gap-5 py-10 border-t border-gray border-opacity-50">
                                                         <>
                                                             {candidates.map(candidate => (
-                                                                <div key={candidate.id} className="p-5 w-96 w-full flex flex-col justify-start items-center border border-dark border-opacity-50 shadow-sm bg-lightgray">
+                                                                <div key={candidate.id} className="p-5 lg:w-96 w-full flex flex-col justify-start items-center border border-dark border-opacity-50 shadow-sm bg-lightgray">
                                                                     <div className="flex flex-row items-center">
                                                                         <p className="text-dark font-medium">#{candidate.id} {candidate.header}</p>
                                                                     </div>

@@ -31,7 +31,7 @@ function decryptData(ciphertext, secretKey) {
 
 export default function Registration() {
 	// Contract Address & ABI
-	const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
+	const contractAddress = "0x84D1fA90c61F95Cd1CB688a513B95E66688b0322";
 	const contractABI = Election_ABI.abi;
 
 	const [isLoading, setisLoading] = useState(false);
@@ -121,22 +121,15 @@ export default function Registration() {
 			// Loader
 			setisLoading(true);
 
-			// Register or Update
-			const isUpdating = currentVoter.isRegistered;
-
 			// Start Tx
-			const registTx = isUpdating
-				? await electionInstance.updateVoterDetails(encryptedName, encryptedPhone) // Fungsi update
-				: await electionInstance.registerAsVoter(encryptedName, encryptedPhone); // Fungsi register
+			const encryptedName = encryptData(voterName, secretKey);
+			const encryptedPhone = encryptData(voterPhone, secretKey);
+			const registTx = await electionInstance.registerAsVoter(encryptedName, encryptedPhone);
 
 			await registTx.wait();
 
 			// If Tx Success
-			if (isUpdating) {
-				toast.success("Transaction confirmed. Update successfully!");
-			} else {
-				toast.success("Transaction confirmed. Register successfully!");
-			}
+			toast.success("Transaction confirmed. Your voter details have been successfully registered or updated!");
 
 			window.location.reload();
 		} catch (error) {

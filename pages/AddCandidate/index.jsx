@@ -18,7 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddCandidate() {
     // Contract Address & ABI
-    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
+    const contractAddress = "0x84D1fA90c61F95Cd1CB688a513B95E66688b0322";
     const contractABI = Election_ABI.abi;
 
     const [isAdmin, setisAdmin] = useState(false);
@@ -106,7 +106,7 @@ export default function AddCandidate() {
                 const candidate = await electionInstance.candidateDetails(candidateIndex);
 
                 loadedCandidates.push({
-                    id: candidate.candidateId.toNumber(),
+                    id: candidate.candidateId.toNumber() + 1,
                     header: candidate.header,
                     slogan: candidate.slogan,
                 });
@@ -267,7 +267,7 @@ export default function AddCandidate() {
                                                     <p className="text-dark font-semibold text-xl mb-5">[ Candidates List ]</p>
                                                     <p className="w-full text-xs text-gray mb-5">The candidate list shows all added candidates. The app is in beta and lacks a delete feature, ensure all data is accurate.</p>        
                                                     {candidateCount > 0 && (
-                                                        <p className="text-gray font-medium mb-5">Total candidates: {candidateCount}</p>
+                                                        <p className="2xl:mt-3.5 text-gray font-medium mb-5">Total candidates: {candidateCount}</p>
                                                     )}
                                                     {loadAdded(candidates)}
                                                 </div>
@@ -321,12 +321,12 @@ export function loadAdded(candidates) {
                 </div>
             ) : (
                 <div className="container-list">
-                    <table className="w-full border-collapse border border-gray border-opacity-50 text-left">
+                    <table className="border-collapse border border-gray border-opacity-50 text-left">
                         <thead className="bg-lightgray">
                             <tr>
-                                <th className="border border-gray border-opacity-50 px-5 py-2 text-sm font-semibold">#</th>
+                                <th className="text-center border border-gray border-opacity-50 px-5 py-2 text-sm font-semibold">#</th>
                                 <th className="border border-gray border-opacity-50 px-5 py-2 text-sm font-semibold">Header</th>
-                                <th className="border border-gray border-opacity-50 px-5 py-2 text-sm font-semibold">Slogan</th>
+                                <th className="w-full border border-gray border-opacity-50 px-5 py-2 text-sm font-semibold">Slogan</th>
                             </tr>
                         </thead>
                         <tbody>

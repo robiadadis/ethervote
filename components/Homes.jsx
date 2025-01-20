@@ -13,7 +13,7 @@ export default function Homes() {
     const [showTypewriter, setShowTypewriter] = useState(false);
     
     // Contract Address & ABI
-    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
+    const contractAddress = "0x84D1fA90c61F95Cd1CB688a513B95E66688b0322";
     const contractABI = Election_ABI.abi;
 
     const { data: signer } = useSigner();
@@ -59,9 +59,9 @@ export default function Homes() {
             setelStarted(start);
             const end = await electionInstance.getEnd();
             setelEnded(end);
-            if (start === true) {
-                fetchElectionDetail();
-            }
+            
+            // Fetch election details regardless of the status
+            fetchElectionDetail();
         } catch (error) {
             console.error(error);
         }

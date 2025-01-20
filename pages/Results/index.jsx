@@ -16,7 +16,7 @@ library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
 export default function Voting() {
     // Contract Address & ABI
-    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
+    const contractAddress = "0x84D1fA90c61F95Cd1CB688a513B95E66688b0322";
     const contractABI = Election_ABI.abi;
 
     // Chart Result
@@ -26,6 +26,7 @@ export default function Voting() {
     const [isLoading, setIsLoading] = useState(false);
     const [elStarted, setElStarted] = useState(false);
     const [elEnded, setElEnded] = useState(false);
+    const [elDetails, setelDetails] = useState({});
     const [candidateCount, setCandidateCount] = useState(0);
     const [candidates, setCandidates] = useState([]);
     const [winner, setWinner] = useState(null);
@@ -143,6 +144,8 @@ export default function Voting() {
             if (start === true || end === true) {
                 await fetchCandidatesDetail();
             }
+
+            fetchElectionDetail();
             setIsLoading(false);
         } catch (error) {
             console.error(error);
@@ -186,6 +189,18 @@ export default function Voting() {
             console.error("Error fetching candidates:", error);
         }
     };
+
+    const fetchElectionDetail = async () => {
+        try {
+            const electionTitle = await electionInstance.getElectionTitle();
+
+            setelDetails({
+                electionTitle: electionTitle,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <>
@@ -239,8 +254,8 @@ export default function Voting() {
                                 <>
                                     {winner && (
                                         <div className="flex flex-col justify-center items-center px-5 mt-10">
-                                            <div className="text-dark font-semibold text-xl">
-                                                [ <span className="text-crimson">Congratulations to the Winner!</span> ]
+                                            <div className="text-dark font-semibold text-xl text-center">
+                                                [ <span className="text-crimson">Congratulations to the winner of {elDetails.electionTitle}!</span> ]
                                             </div>
                                             <div className="text-lg font-semibold text-dark mt-5">{winner.header}</div>
                                             <div className="text-sm font-medium text-dark text-center mb-5">"{winner.slogan}"</div>
