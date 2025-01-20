@@ -31,7 +31,7 @@ function decryptData(ciphertext, secretKey) {
 
 export default function Registration() {
     // Contract Address & ABI
-    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
+    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
     const contractABI = Election_ABI.abi;
 
     const [isAdmin, setisAdmin] = useState(false);
@@ -153,7 +153,7 @@ export default function Registration() {
             await verifyVoter.wait();
 
             // If Tx Success
-            toast.success("Transaction confirmed!");
+            toast.success("Transaction confirmed. User successfully verified!");
             
             window.location.reload();
         } catch (error) {

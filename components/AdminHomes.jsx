@@ -15,7 +15,7 @@ export default function AdminHomes() {
     const [elDetails, setelDetails] = useState({});
 
     // Contract Address & ABI
-    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
+    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
     const contractABI = Election_ABI.abi;
 
     const { data: signer } = useSigner();
@@ -95,7 +95,7 @@ export default function AdminHomes() {
             await endTx.wait();
             
             // If Tx Success
-            toast.success("Transaction confirmed. Election successfully ended.");
+            toast.success("Transaction confirmed. Election successfully ended!");
 
             window.location.reload();
         } catch (error) {

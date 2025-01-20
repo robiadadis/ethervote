@@ -13,7 +13,7 @@ export default function Homes() {
     const [showTypewriter, setShowTypewriter] = useState(false);
     
     // Contract Address & ABI
-    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
+    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
     const contractABI = Election_ABI.abi;
 
     const { data: signer } = useSigner();

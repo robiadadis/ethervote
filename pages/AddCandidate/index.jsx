@@ -18,7 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddCandidate() {
     // Contract Address & ABI
-    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
+    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
     const contractABI = Election_ABI.abi;
 
     const [isAdmin, setisAdmin] = useState(false);
@@ -135,7 +135,7 @@ export default function AddCandidate() {
             await addCandidateTx.wait();
 
             // If Tx Success
-			toast.success("Transaction confirmed");
+			toast.success("Transaction confirmed. Candidate added successfully!");
 
             window.location.reload();
         } catch (error) {

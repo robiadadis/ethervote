@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Voting() {
     // Contract Address & ABI
-    const contractAddress = "0x694cC4bfB1751928917FE49b921A5553639d7575";
+    const contractAddress = "0xdE2CcaFEb71B425820b340035B5AfC56Aa54F20c";
     const contractABI = Election_ABI.abi;
 
     const [isLoading, setisLoading] = useState(false);
@@ -139,7 +139,7 @@ export default function Voting() {
             await castVoteTx.wait();
     
             // If Tx Success
-            toast.success("Transaction confirmed!");
+            toast.success("Transaction confirmed. Your vote has been cast successfully!");
             
             window.location.reload();
         } catch (error) {
