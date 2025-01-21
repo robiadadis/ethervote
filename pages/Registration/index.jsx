@@ -5,6 +5,7 @@ const Election_ABI = require("../../utils/Election.json");
 import CryptoJS from 'crypto-js';
 import NotInit from "../../components/NotInit";
 import { useForm } from "react-hook-form";
+
 // FontAwesome Library
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas, faWallet, faAddressCard, faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
@@ -16,13 +17,13 @@ library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Encrypt data using AES encryption
+// Encrypt data using AES Encryption
 function encryptData(data, secretKey) {
 	const ciphertext = CryptoJS.AES.encrypt(data, secretKey).toString();
 	return ciphertext;
 };
 
-// Decrypt data using AES decryption
+// Decrypt data using AES Decryption
 function decryptData(ciphertext, secretKey) {
 	const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
 	const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
@@ -47,7 +48,7 @@ export default function Registration() {
 		isVerified: false,
 		isRegistered: false,
 	});
-	const [secretKey, setsecretKey] = useState(process.env.NEXT_PUBLIC_SECRET_KEY || 'default_secret_key');
+	const [secretKey, setsecretKey] = useState(process.env.NEXT_PUBLIC_SECRET_KEY);
 	const { data: signer } = useSigner();
 	const [currentAccount, setcurrentAccount] = useState(null);
 
