@@ -16,7 +16,7 @@ library.add(fas, fab, faWallet, faAddressCard, faCheckToSlot);
 
 export default function Voting() {
     // Contract Address & ABI
-    const contractAddress = "0x84D1fA90c61F95Cd1CB688a513B95E66688b0322";
+    const contractAddress = "0x30b495eE242e534B0FFAb49Ae0B6D0Fc8A55aAe0";
     const contractABI = Election_ABI.abi;
 
     // Chart Result
@@ -255,9 +255,9 @@ export default function Voting() {
                                     {winner && (
                                         <div className="flex flex-col justify-center items-center px-5 mt-10">
                                             <div className="text-dark font-semibold text-xl text-center">
-                                                [ <span className="text-crimson">Congratulations to the winner of {elDetails.electionTitle}!</span> ]
+                                                [ <span className="text-dark">Congratulations to the winner of {elDetails.electionTitle}!</span> ]
                                             </div>
-                                            <div className="text-lg font-semibold text-dark mt-5">{winner.header}</div>
+                                            <div className="text-lg font-semibold text-crimson mt-5">{winner.header}</div>
                                             <div className="text-sm font-medium text-dark text-center mb-5">"{winner.slogan}"</div>
                                             <p className="text-gray font-medium">Total votes received: {winner.voteCount}</p>
                                         </div>

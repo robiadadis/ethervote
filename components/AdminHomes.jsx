@@ -15,7 +15,7 @@ export default function AdminHomes() {
     const [elDetails, setelDetails] = useState({});
 
     // Contract Address & ABI
-    const contractAddress = "0x84D1fA90c61F95Cd1CB688a513B95E66688b0322";
+    const contractAddress = "0x30b495eE242e534B0FFAb49Ae0B6D0Fc8A55aAe0";
     const contractABI = Election_ABI.abi;
 
     const { data: signer } = useSigner();

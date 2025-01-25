@@ -7,7 +7,7 @@ export default function Footer() {
                 <div className="w-full">
                     <div className="flex flex-wrap justify-between">
                         <div>
-                            <a href="/"><p className="tracking-widest text-white">ETHERVOTE</p></a>
+                            <a href="/"><p className="tracking-widest text-white font-semibold">ETHERVOTE</p></a>
                         </div>
                         <div className="flex text-white text-xs items-center text-center">
                             <p>Contact us info@ethervote.com</p>

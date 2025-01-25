@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Voting() {
     // Contract Address & ABI
-    const contractAddress = "0x84D1fA90c61F95Cd1CB688a513B95E66688b0322";
+    const contractAddress = "0x30b495eE242e534B0FFAb49Ae0B6D0Fc8A55aAe0";
     const contractABI = Election_ABI.abi;
 
     const [isLoading, setisLoading] = useState(false);
@@ -90,7 +90,6 @@ export default function Voting() {
             const totalCandidateCount = cekCount.toNumber();
             setcandidateCount(totalCandidateCount);
 
-            // Loading Candidates details
             const loadedCandidates = [];
 
             for (let i = 1; i <= cekCount.toNumber(); i++) {
@@ -98,7 +97,7 @@ export default function Voting() {
                 const candidate = await electionInstance.candidateDetails(candidateIndex);
 
                 loadedCandidates.push({
-                    id: candidate.candidateId.toNumber() + 1,
+                    id: candidate.candidateId.toNumber(),
                     header: candidate.header,
                     slogan: candidate.slogan,
                 });
@@ -154,7 +153,7 @@ export default function Voting() {
 
     const confirmVote = (id, header) => {
         const r = window.confirm(
-            `Vote for ${header} with Id ${id}.\nAre you sure?`
+            `Vote for ${header} with Id ${id + 1}.\nAre you sure?`
         );
         if (r === true) {
             castVote(id);
@@ -247,7 +246,7 @@ export default function Voting() {
                                                             {candidates.map(candidate => (
                                                                 <div key={candidate.id} className="p-5 lg:w-96 w-full flex flex-col justify-start items-center border border-dark border-opacity-50 shadow-sm bg-lightgray">
                                                                     <div className="flex flex-row items-center">
-                                                                        <p className="text-dark font-medium">#{candidate.id} {candidate.header}</p>
+                                                                        <p className="text-dark font-medium">#{candidate.id + 1} {candidate.header}</p>
                                                                     </div>
                                                                     <p className="text-dark overflow-x-auto h-14 my-5 border-y w-full text-center p-1 bg-white border-gray border-opacity-20 text-base rounded-sm">{candidate.slogan}</p>
                                                                     <button
