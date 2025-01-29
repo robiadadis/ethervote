@@ -27,6 +27,7 @@ contract Election {
         require(msg.sender == admin);
         _;
     }
+    
     // Modeling a candidate
     struct Candidate {
         uint256 candidateId;
@@ -80,6 +81,7 @@ contract Election {
         string organizationTitle
     );
 
+    // Set Election Details
     function setElectionDetails(
         string memory _adminName,
         string memory _adminEmail,

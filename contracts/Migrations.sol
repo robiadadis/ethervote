@@ -5,15 +5,21 @@ contract Migrations {
     address public owner;
     uint256 public last_completed_migration;
 
-    modifier restricted() {
-        if (msg.sender == owner) _;
+    event MigrationCompleted(uint256 completed);
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
     }
 
-    constructor() {
+    constructor() payable{
         owner = msg.sender;
     }
 
-    function setCompleted(uint256 completed) public restricted {
-        last_completed_migration = completed;
+    function setCompleted(uint256 completed) public onlyOwner {
+        if (last_completed_migration != completed) {
+            last_completed_migration = completed;
+            emit MigrationCompleted(completed);
+        }
     }
 }
